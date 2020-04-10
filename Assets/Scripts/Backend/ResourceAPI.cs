@@ -17,7 +17,7 @@ public static class ResourceAPI {
     /// Update the resources.
     /// </summary>
     public static void UpdateResources() {
-        OnUpdateResources.Invoke();
+        OnUpdateResources?.Invoke();
     }
 
     /// <summary>
