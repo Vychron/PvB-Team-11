@@ -13,11 +13,11 @@ public static class ResourceContainer {
         get { return _populationCount; }
         set {
             if (value > _populationCap)
-                _populationCap = PopulationCap;
+                _populationCount = PopulationCap;
             else if (value < 1)
-                _populationCap = 1;
+                _populationCount = 1;
             else
-                _populationCap = value;
+                _populationCount = value;
         }
     }
 
