@@ -1,5 +1,5 @@
 ﻿/// <summary>
-/// Manages the events of
+/// Manages the events of timers.
 /// </summary>
 public static class TimerAPI {
 
