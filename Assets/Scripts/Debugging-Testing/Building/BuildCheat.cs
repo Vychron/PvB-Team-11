@@ -15,6 +15,9 @@ public class BuildCheat : MonoBehaviour {
     [SerializeField]
     private string _objectName = "";
 
+    /// <summary>
+    /// Try to place a building.
+    /// </summary>
     public void PlaceBuilding() {
         GameObject obj = null;
         obj = Resources.Load("Prefabs/Buildings/" + _objectName) as GameObject;
