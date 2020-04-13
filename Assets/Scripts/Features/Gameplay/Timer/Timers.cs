@@ -20,7 +20,9 @@ public class Timers : MonoBehaviour {
     private void Start() {
         _timers = new List<Timer>();
         _removeQueue = new List<Timer>();
-        if (Instance) {
+
+        //Check if the reference has already been set, and if it refers to itself.
+        if (Instance && Instance != this) {
             Destroy(this);
             return;
         }
