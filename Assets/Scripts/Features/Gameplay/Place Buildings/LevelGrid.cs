@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -90,8 +89,7 @@ public class LevelGrid : MonoBehaviour {
 
         // Place the structure.
         GameObject obj = Instantiate(structure, transform);
-        // Use y value as z coördinate to properly translate to 2D location.
-        obj.transform.position = new Vector3(x, 0, y);
+        obj.transform.position = new Vector2(x, y);
 
         // Mark the area as structure.
         for (int i = 0; i < width; i++) {
