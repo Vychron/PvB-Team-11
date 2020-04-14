@@ -10,25 +10,30 @@ public class CameraZooming : MonoBehaviour {
 
     [SerializeField]
     private float
-        _minZoomHeight = 5,
-        _maxZoomHeight = 25;
+        _minZoomLevel = 2f,
+        _maxZoomLevel = 17.5f;
+
+    private Camera _cam;
+
+    private float _targetZoomLevel = 0f;
+
+    private void Start() {
+        _cam = Camera.main;
+        _targetZoomLevel = _cam.orthographicSize;
+    }
 
     private void Update() {
-
         if (Input.mouseScrollDelta.y > 0) {
-            transform.Translate(Vector3.forward * _zoomSpeed);
-            if (transform.position.y < _minZoomHeight) {
-                float distance = Mathf.Acos(transform.rotation.x) * Mathf.Abs(_minZoomHeight - transform.position.y);
-                transform.Translate(Vector3.back * distance);
-            }
+            _targetZoomLevel -= _zoomSpeed;
+            if (_targetZoomLevel < _minZoomLevel)
+                _targetZoomLevel = _minZoomLevel;
         }
         else if (Input.mouseScrollDelta.y < 0) {
-            transform.Translate(Vector3.back * _zoomSpeed);
-            if (transform.position.y > _maxZoomHeight) {
-                float distance = Mathf.Acos(transform.rotation.x) * Mathf.Abs(_maxZoomHeight - transform.position.y);
-                transform.Translate(Vector3.forward * distance);
-            }
+            _targetZoomLevel += _zoomSpeed;
+            if (_targetZoomLevel > _maxZoomLevel)
+                _targetZoomLevel = _maxZoomLevel;
         }
+        _cam.orthographicSize = Mathf.Lerp(_cam.orthographicSize, _targetZoomLevel, .02f);
 
     }
 }

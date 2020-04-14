@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour {
 
     private bool _canDrag = true;
 
-    private Vector3 _oldPos = Vector3.zero;
+    private Vector2 _oldPos = Vector2.zero;
     private Vector3 _mouseOrigin = Vector3.zero;
 
     [SerializeField]
@@ -22,14 +22,11 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField]
     private float _boundary = 15f;
 
-    [SerializeField]
-    private float _verticalBoundsOffset = 0f;
-
     private void Start() {
         _leftBoundary = transform.position.x - _boundary;
         _rightBoundary = transform.position.x + _boundary;
-        _topBoundary = transform.position.x + _boundary + _verticalBoundsOffset;
-        _bottomBoundary = transform.position.x - _boundary + _verticalBoundsOffset;
+        _topBoundary = transform.position.x + _boundary;
+        _bottomBoundary = transform.position.x - _boundary;
     }
 
     private void SaveOriginPositions() {
@@ -41,14 +38,14 @@ public class CameraMovement : MonoBehaviour {
     private void MoveObject() {
 
         // Mouse position relative to it's previous position is being determined.
-        Vector3 newPos = Camera.main.ScreenToViewportPoint(Input.mousePosition) - _mouseOrigin;
+        Vector2 newPos = Camera.main.ScreenToViewportPoint(Input.mousePosition) - _mouseOrigin;
 
+        float camSize = Camera.main.orthographicSize;
         // Position changes depending on the mouse movement.
-        transform.position = new Vector3
+        transform.position = new Vector2
         (
-            _oldPos.x + -newPos.x * (_dragSpeed * 0.75f * transform.position.y),
-            transform.position.y,
-            _oldPos.z + -newPos.y * (_dragSpeed * 0.75f * transform.position.y)
+            _oldPos.x - newPos.x * _dragSpeed * camSize,
+            _oldPos.y - newPos.y * _dragSpeed * camSize
         );
         ClampToBounds();
         SaveOriginPositions();
@@ -65,15 +62,13 @@ public class CameraMovement : MonoBehaviour {
             MoveObject();
     }
 
-    // Clamp the object to the bounds depending on the height of the camera.
     private void ClampToBounds() {
-        transform.position = Vector3.Lerp(
+        transform.position = Vector2.Lerp(
             transform.position,
-            new Vector3
+            new Vector2
             (
                 Mathf.Clamp(transform.position.x, _leftBoundary, _rightBoundary),
-                transform.position.y,
-                Mathf.Clamp(transform.position.z, _bottomBoundary + (transform.position.y * _verticalBoundsOffset * 0.25f), _topBoundary + (transform.position.y * _verticalBoundsOffset * 0.25f))
+                Mathf.Clamp(transform.position.y, _bottomBoundary, _topBoundary)
             ),
             .5f);
     }
