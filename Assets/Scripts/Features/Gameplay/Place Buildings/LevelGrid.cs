@@ -10,17 +10,27 @@ public class LevelGrid : MonoBehaviour {
     [SerializeField]
     private int _gridSize = 32;
 
-    private TileTypes[][] _grid = null;
+    /// <summary>
+    /// Public getter for the level grid.
+    /// </summary>
+    public Node[][] GetGrid => _grid;
 
-    private List<GameObject> _structures = null;
+    private Node[][] _grid = null;
 
     /// <summary>
-    /// public getter for the structure list.
+    /// public getter for the status of the level grid.
     /// </summary>
-    public List<GameObject> GetStructures {
-        get { return _structures; }
-    }
+    public bool Initialized => _initialized;
 
+    private bool _initialized;
+
+    /// <summary>
+    /// Public getter for the structure list.
+    /// </summary>
+    public List<GameObject> GetStructures => _structures;
+
+    private List<GameObject> _structures = null;
+    
     /// <summary>
     /// Static reference to the level grid.
     /// </summary>
@@ -46,27 +56,31 @@ public class LevelGrid : MonoBehaviour {
 
     private void GenerateGrid() {
 
-        _grid = new TileTypes[_gridSize][];
+        _grid = new Node[_gridSize][];
         for (int i = 0; i < _gridSize; i++) {
-            _grid[i] = new TileTypes[_gridSize];
+            _grid[i] = new Node[_gridSize];
             for (int j = 0; j < _gridSize; j++) {
-                _grid[i][j] = TileTypes.Empty;
+                _grid[i][j] = new Node();
+                _grid[i][j].tileType = TileTypes.Empty;
+                _grid[i][j].position = new Vector2Int(i, j);
             }
         }
+
         GridAPI.InitializeGrid();
+        _initialized = true;
     }
 
     /// <summary>
     /// Checks if the structure can be placed at the selected location.
-    /// 
     /// </summary>
     /// <param name="x">X position of the structure's origin.</param>
     /// <param name="y">Y position of the structure's origin.</param>
     /// <param name="length">Length of the structure.</param>
     /// <param name="width">Width of the structure.</param>
     /// <param name="structure">The structure you want to place.</param>
+    /// <param name="type">The type of tile the structure uses.</param>
     /// <returns>Returns if the position is available.</returns>
-    public bool TryPlace(int x, int y, int length, int width, GameObject structure) {
+    public bool TryPlace(int x, int y, int length, int width, GameObject structure, TileTypes type = TileTypes.Structure) {
 
         // Check if the area is inside of the grid.
         if (
@@ -74,29 +88,23 @@ public class LevelGrid : MonoBehaviour {
             y < 0 ||
             x + width > _gridSize ||
             y + length > _gridSize
-           ) {
+           )
             return false;
-        }
 
         // Check if the area is available.
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < length; j++) {
-                if (_grid[i + x][j + y] != TileTypes.Empty) {
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < length; j++)
+                if (_grid[i + x][j + y].tileType != TileTypes.Empty)
                     return false;
-                }
-            }
-        }
 
         // Place the structure.
         GameObject obj = Instantiate(structure, transform);
         obj.transform.position = new Vector2(x, y);
 
         // Mark the area as structure.
-        for (int i = 0; i < width; i++) {
-            for (int j = 0; j < length; j++) {
-                _grid[i + x][j + y] = TileTypes.Structure;
-            }
-        }
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < length; j++)
+                _grid[i + x][j + y].tileType = type;
 
         _structures.Add(obj);
 
