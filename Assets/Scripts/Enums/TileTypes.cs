@@ -4,5 +4,6 @@
 public enum TileTypes {
     Empty = 0,
     Structure = 1,
-    Path = 2
+    Path = 2,
+    Entrance = 3
 }

@@ -55,7 +55,7 @@ public class Pathfinder : MonoBehaviour {
         List<Node> neighbours = GetChildren(from, grid, closedList);
         int count = neighbours.Count;
         Node currentNode = null;
-        if (count > 0)
+        if (count > 0) {
             for (int i = 0; i < count; i++) {
                 currentNode = neighbours[i];
                 if (!openList.Contains(currentNode))
@@ -72,10 +72,16 @@ public class Pathfinder : MonoBehaviour {
                         currentNode.F += 20;
                 }
             }
+        }
 
         int openCount = openList.Count;
         Node lowest = openList[0];
         for (int i = 1; i < openCount; i++) {
+            if (openList[i] == to) {
+                lowest = to;
+                break;
+            }
+
             if (openList[i].F < lowest.F) {
                 lowest = openList[i];
                 continue;
@@ -95,15 +101,6 @@ public class Pathfinder : MonoBehaviour {
         openList.Remove(lowest);
         if (lowest != to)
             return SetChildNodes(lowest, to, openList, closedList, grid);
-
-        /*
-         * There's a minor bug in the algorithm that causes the villagers to first move to a different node
-         * next to the destination, causing the villager to move over the destination, before moving back to it,
-         * therefore, the second-last node is removed from the list.
-        */
-        int closedCount = closedList.Count;
-        if (closedCount > 1)
-            closedList.RemoveAt(closedCount - 2);
 
         return closedList;
     }
