@@ -13,7 +13,7 @@ public class CameraMovement : MonoBehaviour {
 
     private bool _canDrag = true;
 
-    private Vector2 _oldPos = Vector2.zero;
+    private Vector3 _oldPos = Vector3.zero;
     private Vector3 _mouseOrigin = Vector3.zero;
 
     [SerializeField]
@@ -23,6 +23,7 @@ public class CameraMovement : MonoBehaviour {
     private float _boundary = 15f;
 
     private void Start() {
+        _oldPos = transform.position;
         _leftBoundary = transform.position.x - _boundary;
         _rightBoundary = transform.position.x + _boundary;
         _topBoundary = transform.position.x + _boundary;
@@ -42,10 +43,11 @@ public class CameraMovement : MonoBehaviour {
 
         float camSize = Camera.main.orthographicSize;
         // Position changes depending on the mouse movement.
-        transform.position = new Vector2
+        transform.position = new Vector3
         (
             _oldPos.x - newPos.x * _dragSpeed * camSize,
-            _oldPos.y - newPos.y * _dragSpeed * camSize
+            _oldPos.y - newPos.y * _dragSpeed * camSize,
+            transform.position.z
         );
         ClampToBounds();
         SaveOriginPositions();
@@ -63,12 +65,13 @@ public class CameraMovement : MonoBehaviour {
     }
 
     private void ClampToBounds() {
-        transform.position = Vector2.Lerp(
+        transform.position = Vector3.Lerp(
             transform.position,
-            new Vector2
+            new Vector3
             (
                 Mathf.Clamp(transform.position.x, _leftBoundary, _rightBoundary),
-                Mathf.Clamp(transform.position.y, _bottomBoundary, _topBoundary)
+                Mathf.Clamp(transform.position.y, _bottomBoundary, _topBoundary),
+                transform.position.z
             ),
             .5f);
     }

@@ -15,17 +15,18 @@ public class BuildCheat : MonoBehaviour {
     [SerializeField]
     private string _objectName = "";
 
+    [SerializeField]
+    private TileTypes _tileType = TileTypes.Structure;
+
     /// <summary>
     /// Try to place a building.
     /// </summary>
     public void PlaceBuilding() {
         GameObject obj = null;
         obj = Resources.Load("Prefabs/Buildings/" + _objectName) as GameObject;
-        if (obj) {
-            bool canPlace = LevelGrid.Instance.TryPlace(_x, _y, _length, _width, obj);
-        }
-        else {
+        if (obj)
+            LevelGrid.Instance.TryPlace(_x, _y, _length, _width, obj, _tileType);
+        else
             Debug.LogWarning("Geen object gevonden om te plaatsen.");
-        }
     }
 }
