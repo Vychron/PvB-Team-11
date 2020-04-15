@@ -39,6 +39,7 @@ public class Pathfinder : MonoBehaviour {
 
         Node[][] grid = LevelGrid.Instance.GetGrid;
 
+        // Convert the positions to nodes.
         Node fromNode = grid[from.x][from.y];
         Node toNode = grid[to.x][to.y];
 

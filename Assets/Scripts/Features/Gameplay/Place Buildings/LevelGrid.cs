@@ -11,22 +11,21 @@ public class LevelGrid : MonoBehaviour {
     private int _gridSize = 32;
 
     /// <summary>
-    /// Public read-only getter for the level grid.
+    /// Public getter for the level grid.
     /// </summary>
     public Node[][] GetGrid => _grid;
 
     private Node[][] _grid = null;
 
     /// <summary>
-    /// public read-only getter for the status of the level grid.
+    /// public getter for the status of the level grid.
     /// </summary>
     public bool Initialized => _initialized;
 
     private bool _initialized;
 
-
     /// <summary>
-    /// Public read-only getter for the structure list.
+    /// Public getter for the structure list.
     /// </summary>
     public List<GameObject> GetStructures => _structures;
 
@@ -79,6 +78,7 @@ public class LevelGrid : MonoBehaviour {
     /// <param name="length">Length of the structure.</param>
     /// <param name="width">Width of the structure.</param>
     /// <param name="structure">The structure you want to place.</param>
+    /// <param name="type">The type of tile the structure uses.</param>
     /// <returns>Returns if the position is available.</returns>
     public bool TryPlace(int x, int y, int length, int width, GameObject structure, TileTypes type = TileTypes.Structure) {
 
