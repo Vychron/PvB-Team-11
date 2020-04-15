@@ -891,6 +891,7 @@ MonoBehaviour:
   _length: 2
   _width: 2
   _objectName: House
+  _tileType: 1
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -970,7 +971,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 16, y: 14, z: 0}
+  m_LocalPosition: {x: 16, y: 14, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1219,6 +1220,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1321527178}
   - component: {fileID: 1321527177}
+  - component: {fileID: 1321527179}
+  - component: {fileID: 1321527180}
   m_Layer: 0
   m_Name: Grid
   m_TagString: Untagged
@@ -1253,6 +1256,32 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1321527179
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321527176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe1508c73d6245a4cae477bbce4282be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1321527180
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1321527176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 247dd3930416ed146a80dd846343db04, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _villagerPrefab: {fileID: 6393276183764155891, guid: f15cfb7dd27e555439a87cbc7ef853d5,
+    type: 3}
 --- !u!1 &1354468327
 GameObject:
   m_ObjectHideFlags: 0

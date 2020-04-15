@@ -25,7 +25,7 @@ public class BuildCheat : MonoBehaviour {
         GameObject obj = null;
         obj = Resources.Load("Prefabs/Buildings/" + _objectName) as GameObject;
         if (obj)
-            LevelGrid.Instance.TryPlace(_x, _y, _length, _width, obj, _tileType);
+            LevelGrid.Instance.TryPlace(_x, _y, _length, _width, obj, _tileType, Vector2Int.zero);
         else
             Debug.LogWarning("Geen object gevonden om te plaatsen.");
     }

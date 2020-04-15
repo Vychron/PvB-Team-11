@@ -13,16 +13,8 @@ public class VillagerMovement : MonoBehaviour {
 
     private List<Node> _path;
 
-    private void OnEnable() {
-        Debug.Log("enabled");
-        _villager = GetComponent<Villager>();
-        if (LevelGrid.Instance != null)
-            if (LevelGrid.Instance.Initialized)
-                OnGridInitialized();
-        GridAPI.OnGridCreated += OnGridInitialized;     
-    }
-
-    private void OnGridInitialized() {
+    private void SetNewMoveTimer() {
+        TimerAPI.OnTimerEnd -= Move;
         float rand = Random.Range(5f, 20f);
         Debug.Log(rand);
         _moveTimer = Timers.Instance.CreateTimer(rand);
@@ -49,7 +41,29 @@ public class VillagerMovement : MonoBehaviour {
             }
             nodes.RemoveAt(0);
             yield return new WaitForEndOfFrame();
-            StartCoroutine(MoveToNextNode(nodes));
+            if (nodes.Count < 1)
+                SetNewMoveTimer();
+            else
+                StartCoroutine(MoveToNextNode(nodes));
         }
+    }
+
+    /// <summary>
+    /// Find a path from the current position to the given destination.
+    /// </summary>
+    /// <param name="destination">The destination of the path.</param>
+    public void FindPath(Vector2Int destination) {
+        bool targetEntrance = false;
+        if (LevelGrid.Instance.GetTile(destination).tileType == TileTypes.Entrance) {
+            destination.y--;
+            targetEntrance = true;
+        }
+        Vector2Int position = new Vector2Int((int)transform.position.x, (int)transform.position.y);
+        List<Node> path = Pathfinder.Instance.GetPath(position, destination);
+        if (targetEntrance) {
+            destination.y++;
+            path.Add(LevelGrid.Instance.GetTile(destination));
+        }
+        StartCoroutine(MoveToNextNode(path));
     }
 }

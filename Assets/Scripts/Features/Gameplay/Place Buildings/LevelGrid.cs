@@ -27,9 +27,9 @@ public class LevelGrid : MonoBehaviour {
     /// <summary>
     /// Public getter for the structure list.
     /// </summary>
-    public List<GameObject> GetStructures => _structures;
+    public List<Structure> GetStructures => _structures;
 
-    private List<GameObject> _structures = null;
+    private List<Structure> _structures = null;
     
     /// <summary>
     /// Static reference to the level grid.
@@ -39,7 +39,7 @@ public class LevelGrid : MonoBehaviour {
     // Start is called before the first frame update
     private void Awake() {
 
-        _structures = new List<GameObject>();
+        _structures = new List<Structure>();
 
         // Check if the level grid component already exists, and if it refers to itself.
         if (Instance && Instance != this) {
@@ -52,6 +52,15 @@ public class LevelGrid : MonoBehaviour {
         
         // Wait half a second before invoking to make sure every object has been loaded.
         Invoke("GenerateGrid", .5f);
+    }
+
+    /// <summary>
+    /// Returns the node of a requested grid tile.
+    /// </summary>
+    /// <param name="tile">The tile that the node is requested from.</param>
+    /// <returns>Returns the node on the requested grid position.</returns>
+    public Node GetTile(Vector2Int tile) {
+        return _grid[tile.x][tile.y];
     }
 
     private void GenerateGrid() {
@@ -80,7 +89,7 @@ public class LevelGrid : MonoBehaviour {
     /// <param name="structure">The structure you want to place.</param>
     /// <param name="type">The type of tile the structure uses.</param>
     /// <returns>Returns if the position is available.</returns>
-    public bool TryPlace(int x, int y, int length, int width, GameObject structure, TileTypes type = TileTypes.Structure) {
+    public bool TryPlace(int x, int y, int length, int width, GameObject structure, TileTypes type, Vector2Int entrance) {
 
         // Check if the area is inside of the grid.
         if (
@@ -106,8 +115,18 @@ public class LevelGrid : MonoBehaviour {
             for (int j = 0; j < length; j++)
                 _grid[i + x][j + y].tileType = type;
 
-        _structures.Add(obj);
+        _structures.Add(obj.GetComponent<Structure>());
+        if (entrance != (Vector2Int.one * -1)) {
+            entrance.x += x;
+            entrance.y += y;
+            SetEntrance(entrance);
+        }
 
         return true;
+    }
+
+    public void SetEntrance(Vector2Int position) {
+        if (_grid[position.x][position.y].tileType == TileTypes.Structure)
+            _grid[position.x][position.y].tileType = TileTypes.Entrance;
     }
 }
