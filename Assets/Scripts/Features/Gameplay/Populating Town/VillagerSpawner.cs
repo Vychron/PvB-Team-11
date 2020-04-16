@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -15,7 +16,7 @@ public class VillagerSpawner : MonoBehaviour {
 
     private void Start() {
         GridAPI.OnGridCreated += OnGridInitialized;
-        TimerAPI.OnTimerEnd += TrySpawnVillager;
+        TimerAPI.OnTimerEnd += SpawnVillager;
     }
 
     private void OnGridInitialized() {
@@ -29,9 +30,14 @@ public class VillagerSpawner : MonoBehaviour {
         _spawnTimer = Timers.Instance.CreateTimer(duration);
     }
 
-    private void TrySpawnVillager(Timer timer) {
+    private void SpawnVillager(Timer timer) {
+        StartCoroutine(TrySpawnVillager(timer));
+    }
+
+    private IEnumerator TrySpawnVillager(Timer timer) {
         if (timer != _spawnTimer)
-            return;
+            yield break;
+        CreateNewTimer();
         if (ResourceContainer.Appreciation > 0 && ResourceContainer.PopulationCount < ResourceContainer.PopulationCap) {
 
             Vector2Int location = Vector2Int.zero;
@@ -69,8 +75,9 @@ public class VillagerSpawner : MonoBehaviour {
             ResourceContainer.PopulationCount++;
             villager.transform.position = new Vector2(location.x, location.y);
             house.AddVillager(villager);
-            villager.GetComponent<VillagerMovement>().FindPath(new Vector2Int((int)house.transform.position.x, (int)house.transform.position.y) + house.entrance);
+            villager.Home = house;
+            yield return new WaitForEndOfFrame();
+            VillagerAPI.JoinVillage(villager);
         }
-        CreateNewTimer();
     }
 }

@@ -9,7 +9,7 @@ public abstract class Structure : MonoBehaviour {
     /// <summary>
     /// List of the tiles that the structure covers.
     /// </summary>
-    public List<Vector2Int> tiles;
+    public List<Vector2> tiles;
 
     /// <summary>
     /// Type of the tiles that the structure covers.
