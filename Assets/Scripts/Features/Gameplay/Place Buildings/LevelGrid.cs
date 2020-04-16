@@ -59,8 +59,8 @@ public class LevelGrid : MonoBehaviour {
     /// </summary>
     /// <param name="tile">The tile that the node is requested from.</param>
     /// <returns>Returns the node on the requested grid position.</returns>
-    public Node GetTile(Vector2Int tile) {
-        return _grid[tile.x][tile.y];
+    public Node GetTile(Vector2 tile) {
+        return _grid[Mathf.RoundToInt(tile.x)][Mathf.RoundToInt(tile.y)];
     }
 
     private void GenerateGrid() {
@@ -89,7 +89,7 @@ public class LevelGrid : MonoBehaviour {
     /// <param name="structure">The structure you want to place.</param>
     /// <param name="type">The type of tile the structure uses.</param>
     /// <returns>Returns if the position is available.</returns>
-    public bool TryPlace(int x, int y, int length, int width, GameObject structure, TileTypes type, Vector2Int entrance) {
+    public bool TryPlace(int x, int y, int length, int width, GameObject structure, TileTypes type, Vector2 entrance) {
 
         // Check if the area is inside of the grid.
         if (
@@ -116,7 +116,7 @@ public class LevelGrid : MonoBehaviour {
                 _grid[i + x][j + y].tileType = type;
 
         _structures.Add(obj.GetComponent<Structure>());
-        if (entrance != (Vector2Int.one * -1)) {
+        if (entrance != (Vector2.one * -1)) {
             entrance.x += x;
             entrance.y += y;
             SetEntrance(entrance);
@@ -125,8 +125,12 @@ public class LevelGrid : MonoBehaviour {
         return true;
     }
 
-    public void SetEntrance(Vector2Int position) {
-        if (_grid[position.x][position.y].tileType == TileTypes.Structure)
-            _grid[position.x][position.y].tileType = TileTypes.Entrance;
+    /// <summary>
+    /// Set the entrance of the building to the right position.
+    /// </summary>
+    /// <param name="position">The position of the entrance.</param>
+    public void SetEntrance(Vector2 position) {
+        if (_grid[Mathf.RoundToInt(position.x)][Mathf.RoundToInt(position.y)].tileType == TileTypes.Structure)
+            _grid[Mathf.RoundToInt(position.x)][Mathf.RoundToInt(position.y)].tileType = TileTypes.Entrance;
     }
 }

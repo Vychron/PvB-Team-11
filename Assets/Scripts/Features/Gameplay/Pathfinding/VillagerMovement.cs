@@ -11,59 +11,79 @@ public class VillagerMovement : MonoBehaviour {
 
     private Timer _moveTimer = null;
 
-    private List<Node> _path;
+    private List<Vector2> _path;
 
-    private void SetNewMoveTimer() {
-        TimerAPI.OnTimerEnd -= Move;
+    private Pathfinder _pathfinder;
+
+    private Vector2 _destination;
+
+    private bool _isPathDefined = false;
+
+    private void Start() {
+        _villager = GetComponent<Villager>();
+        VillagerAPI.OnMovementCompleted += SetNewMoveTimer;
+        VillagerAPI.OnVillagerArrive += OnJoinVillage;
+        TimerAPI.OnTimerEnd += Move;
+        _pathfinder = GetComponent<Pathfinder>();
+    }
+
+    private void SetNewMoveTimer(Villager villager) {
+        if (villager != _villager)
+            return;
         float rand = Random.Range(5f, 20f);
         Debug.Log(rand);
         _moveTimer = Timers.Instance.CreateTimer(rand);
+    }
 
-        TimerAPI.OnTimerEnd += Move;
+    private void OnJoinVillage(Villager villager) {
+        if (villager != _villager)
+            return;
+        DefinePath(LevelGrid.Instance.GetTile((Vector2)_villager.Home.transform.position + _villager.Home.entrance));
+    }
+
+    private void DefinePath(Node destination) {
+        _destination = destination.position;
+        Vector2 target = destination.position;
+        if (destination.tileType == TileTypes.Entrance) {
+            target.y--;
+        }
+        _isPathDefined = true;
+        _pathfinder.GetPath(transform.position, target);
     }
 
     private void Move(Timer timer) {
         if (timer != _moveTimer)
             return;
-
-        _path = Pathfinder.Instance.GetPath(new Vector2Int((int)transform.position.x, (int)transform.position.y));
-        Debug.LogError("Destination is at " + _path[_path.Count - 1].position);
-        StartCoroutine(MoveToNextNode(_path));
-    }
-
-    private IEnumerator MoveToNextNode(List<Node> nodes) {
-        int count = nodes.Count;
-        if (count > 0) {
-            Debug.LogError("Next node is at " + nodes[0].position);
-            while (Vector2.Distance(transform.position, nodes[0].position) > 0.0025f) {
-                transform.position += Vector3.Normalize(new Vector3(nodes[0].position.x, nodes[0].position.y) - transform.position) * 0.005f;
-                yield return new WaitForEndOfFrame();
-            }
-            nodes.RemoveAt(0);
-            yield return new WaitForEndOfFrame();
-            if (nodes.Count < 1)
-                SetNewMoveTimer();
-            else
-                StartCoroutine(MoveToNextNode(nodes));
-        }
+        _isPathDefined = false;
+        _pathfinder.GetPath(transform.position);
     }
 
     /// <summary>
-    /// Find a path from the current position to the given destination.
+    /// Action to execute when a path is found.
     /// </summary>
-    /// <param name="destination">The destination of the path.</param>
-    public void FindPath(Vector2Int destination) {
-        bool targetEntrance = false;
-        if (LevelGrid.Instance.GetTile(destination).tileType == TileTypes.Entrance) {
-            destination.y--;
-            targetEntrance = true;
+    /// <param name="path">The path that has been found.</param>
+    public void OnPathFound(Vector2[] path) {
+        _path = new List<Vector2>(path);
+        if (_isPathDefined)
+            _path.Add(_destination);
+        StartCoroutine(MoveToNextNode());
+    }
+
+    private IEnumerator MoveToNextNode() {
+        int count = _path.Count;
+        if (count > 0) {
+            while (Vector2.Distance(transform.position, _path[0]) > 0.0025f) {
+                Vector2 normalizedDirection = Vector3.Normalize(new Vector3(_path[0].x, _path[0].y) - transform.position) * 0.01f;
+                transform.position += (Vector3)normalizedDirection;
+                yield return new WaitForEndOfFrame();
+            }
+            transform.position = new Vector3(_path[0].x, _path[0].y);
+            _path.RemoveAt(0);
+            yield return new WaitForEndOfFrame();
+            if (_path.Count < 1)
+                VillagerAPI.FinishMoving(_villager);
+            else
+                StartCoroutine(MoveToNextNode());
         }
-        Vector2Int position = new Vector2Int((int)transform.position.x, (int)transform.position.y);
-        List<Node> path = Pathfinder.Instance.GetPath(position, destination);
-        if (targetEntrance) {
-            destination.y++;
-            path.Add(LevelGrid.Instance.GetTile(destination));
-        }
-        StartCoroutine(MoveToNextNode(path));
     }
 }

@@ -9,7 +9,7 @@ public class House : Structure {
     /// <summary>
     /// The location of the house entrance relative to the house.
     /// </summary>
-    public Vector2Int entrance;
+    public Vector2 entrance;
 
     /// <summary>
     /// Getter for the villager count of the house.

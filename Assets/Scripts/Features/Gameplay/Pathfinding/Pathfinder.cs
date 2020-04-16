@@ -6,181 +6,205 @@ using UnityEngine;
 /// </summary>
 public class Pathfinder : MonoBehaviour {
 
-    /// <summary>
-    /// Static reference to the Pathfinder instance.
-    /// </summary>
-    public static Pathfinder Instance;
+    private bool _endFound = false;
 
-    private void Start() {
-        if (Instance && Instance != this) {
-            Destroy(this);
-            return;
-        }
-        Instance = this;
+    private Node[][] _grid;
+
+    private List<Node> _openList;
+    private List<Node> _closedList;
+    private List<Node> _blackList;
+
+    private Node _from;
+    private Node _to;
+
+    /// <summary>
+    /// Get a path to a random, valid location.
+    /// </summary>
+    /// <param name="from">The starting position of the path.</param>
+    public void GetPath(Vector2 from) {
+        GetPath(from, GetRandomNode());
     }
 
-    /// <summary>
-    /// Get a path to a random position.
-    /// </summary>
-    /// <param name="from">Starting position of the path.</param>
-    /// <returns>Returns a node List of coördinates in the order of the path.</returns>
-    public List<Node> GetPath(Vector2Int from) {
-        Vector2Int to = GetRandomPosition().position;
-        return GetPath(from, to);
-    }
-
-    /// <summary>
-    /// Get a path to a chosen position.
-    /// </summary>
-    /// <param name="from">Starting location of the path.</param>
-    /// <param name="to">End position of the path.</param>
-    /// <returns>Returns a node list of coördinates in the order of the path.</returns>
-    public List<Node> GetPath(Vector2Int from, Vector2Int to) {
-
+    private Vector2 GetRandomNode() {
         Node[][] grid = LevelGrid.Instance.GetGrid;
-
-        // Convert the positions to nodes.
-        Node fromNode = grid[from.x][from.y];
-        Node toNode = grid[to.x][to.y];
-
-        List<Node> openList = new List<Node>();
-        List<Node> closedList = new List<Node>();
-        fromNode.H = Mathf.Abs(fromNode.position.x - toNode.position.x) + Mathf.Abs(fromNode.position.y - toNode.position.y);
-        fromNode.F = fromNode.G + fromNode.H;
-        openList.Add(fromNode);
-        return SetChildNodes(fromNode, toNode, openList, closedList, grid);
-    }
-
-    private List<Node> SetChildNodes(Node from, Node to, List<Node> openList, List<Node> closedList, Node[][] grid) {
-        List<Node> neighbours = GetChildren(from, grid, closedList);
-        int count = neighbours.Count;
-        Node currentNode = null;
-        if (count > 0) {
-            for (int i = 0; i < count; i++) {
-                currentNode = neighbours[i];
-                if (!openList.Contains(currentNode))
-                    openList.Add(currentNode);
-
-                if (currentNode.G < (from.G + 1)) {
-                    currentNode.parent = from;
-                    currentNode.G = from.G + 1;
-                    currentNode.H = (int)Mathf.Pow(Mathf.Abs(currentNode.position.x - to.position.x), 2) +
-                        (int)Mathf.Pow(Mathf.Abs(currentNode.position.y - to.position.y), 2);
-                    currentNode.F = currentNode.G + currentNode.H;
-
-                    if (currentNode.tileType == TileTypes.Empty)
-                        currentNode.F += 20;
-                }
-            }
-        }
-
-        int openCount = openList.Count;
-        Node lowest = openList[0];
-        for (int i = 1; i < openCount; i++) {
-            if (openList[i] == to) {
-                lowest = to;
-                break;
-            }
-
-            if (openList[i].F < lowest.F) {
-                lowest = openList[i];
-                continue;
-            }
-
-            if (openList[i].F == lowest.F)
-                if (openList[i].parent != null)
-                    if (openList[i].parent.parent != null)
-                        if (
-                            openList[i].parent.parent.position.x == openList[i].position.x ||
-                            openList[i].parent.parent.position.y == openList[i].position.y
-                           )
-                            lowest = openList[i];
-        }
-
-        closedList.Add(lowest);
-        openList.Remove(lowest);
-        if (lowest != to)
-            return SetChildNodes(lowest, to, openList, closedList, grid);
-
-        return closedList;
-    }
-
-    private List<Node> GetChildren(Node parent, Node[][] grid, List<Node> closedList) {
-
+        List<Node> nodes = new List<Node>();
         int length = grid.Length;
-        Node currentChild = null;
-
-        List<Node> children = new List<Node>();
-
-        if (parent.position.x > 0) {
-            currentChild = grid[parent.position.x - 1][parent.position.y];
-            children = TryAddChild(children, currentChild, closedList);
-        }
-
-        if (parent.position.x < length - 1) {
-            currentChild = grid[parent.position.x + 1][parent.position.y];
-            children = TryAddChild(children, currentChild, closedList);
-        }
-
-        if (parent.position.y > 0) {
-            currentChild = grid[parent.position.x][parent.position.y - 1];
-            children = TryAddChild(children, currentChild, closedList);
-        }
-
-        if (parent.position.y < length - 1) {
-            currentChild = grid[parent.position.x][parent.position.y + 1];
-            children = TryAddChild(children, currentChild, closedList);
-        }
-
-        return children;
-    }
-
-    private List<Node> TryAddChild(List<Node> list, Node child, List<Node> closedList) {
-        if (
-            (child.tileType == TileTypes.Empty ||
-            child.tileType == TileTypes.Path) &&
-            !closedList.Contains(child)
-           )
-            list.Add(child);
-
-        return list;
-    }
-
-    private Node GetRandomPosition() {
-        List<Node> positions = GetAvailablePositions();
-
-        // Generate a list of positions filtered on paved with path.
-        List<Node> pavedPositions = new List<Node>();
-        int count = positions.Count;
-        for (int i = 0; i < count; i++)
-            if (positions[i].tileType == TileTypes.Path)
-                pavedPositions.Add(positions[i]);
-
-        int pavedCount = pavedPositions.Count;
-        if (pavedCount > 0) {
-            int rand = Random.Range(0, pavedCount);
-            return pavedPositions[rand];      
-        }
-
-        // If there are no paved tiles, select a random empty tile.
-        else {
-            int rand = Random.Range(0, count);
-            return positions[rand];
-        }
-    }
-
-    private List<Node> GetAvailablePositions() {
-        List<Node> walkablePositions = new List<Node>();
-        Node[][] grid = LevelGrid.Instance.GetGrid;
-
-        for (int i = 0; i < grid.Length; i++)
-            for (int j = 0; j < grid[i].Length; j++)
+        for (int i = 0; i < length; i++)
+            for (int j = 0; j < length; j++)
                 if (
                     grid[i][j].tileType == TileTypes.Empty ||
                     grid[i][j].tileType == TileTypes.Path
                    )
-                    walkablePositions.Add(grid[i][j]);
+                    nodes.Add(grid[i][j]);
 
-        return walkablePositions;
+        int rand = Random.Range(0, nodes.Count);
+        return nodes[rand].position;
+    }
+
+    /// <summary>
+    /// Get a path towards a specified location.
+    /// </summary>
+    /// <param name="from">Starting location of the path.</param>
+    /// <param name="to">Destination of the path.</param>
+    public void GetPath(Vector2 from, Vector2 to) {
+        _endFound = false;
+        _blackList = new List<Node>();
+
+        _grid = LevelGrid.Instance.GetGrid;
+        int size = _grid.Length;
+        for (int i = 0; i < _grid.Length; i++) {
+            for (int j = 0; j < size; j++) {
+                if (
+                    _grid[i][j].tileType == TileTypes.Structure ||
+                    _grid[i][j].tileType == TileTypes.Entrance
+                   )
+                    _blackList.Add(_grid[i][j]);
+            }
+        }
+
+        // Convert from and to positions to nodes.
+        _from = _grid[Mathf.RoundToInt(from.x)][Mathf.RoundToInt(from.y)];
+        _to = _grid[Mathf.RoundToInt(to.x)][Mathf.RoundToInt(to.y)];
+        // Make sure the destination isn't blacklisted.
+        if (_blackList.Contains(_to))
+            _blackList.Remove(_to);
+
+        _openList = new List<Node>();
+        _closedList = new List<Node>();
+        _closedList.Add(_from);
+        GetNodes();
+    }
+
+    private void GetNodes() {
+        List<Node> neighbours = GetNeighbours();
+        int neighbourCount = neighbours.Count;
+        Node current;
+
+        if (neighbourCount > 0) {
+            for (int i = 0; i < neighbourCount; i++)
+                if (neighbours[i] == _to) {
+                    _to.parent = _from;
+                    _endFound = true;
+                    break;
+                }
+            
+            if (!_endFound)
+                for (int i = 0; i < neighbourCount; i++) {
+                    current = neighbours[i];
+                    if (_openList.Contains(current)) {
+                        if (current.G >= _from.G + 1)
+                            continue;
+                    }
+                    else
+                        _openList.Remove(current);
+                    current.parent = _from;
+                    current.H = Mathf.Abs(current.position.x - _to.position.x) + Mathf.Abs(current.position.y - _to.position.y);
+                    current.G = _from.G + 1;
+                    current.F = current.G + current.H;
+                    if (current.tileType == TileTypes.Empty)
+                        current.F += 100;
+                    _openList.Add(current);
+                }
+        }
+
+        if (
+            _endFound ||
+            _openList.Count < 1
+           ) {
+            List<Node> path = new List<Node>();
+            Node currentNode = _to;
+            while (currentNode.parent != null) {
+                path.Add(currentNode);
+                currentNode = currentNode.parent;
+            }
+            path.Add(_closedList[0]);
+            GetComponent<VillagerMovement>().OnPathFound(ReverseOrder(path));
+            for (int i = 0; i < _grid.Length; i++)
+                for (int j = 0; j < _grid.Length; j++) {
+                    _grid[i][j].F = 0;
+                    _grid[i][j].G = 0;
+                    _grid[i][j].H = 0;
+                    _grid[i][j].parent = null;
+                }
+            return;
+        }
+
+        int openCount = _openList.Count;
+        if (openCount > 0) {
+            Node lowest = _openList[0];
+            for (int i = 0; i < openCount; i++) {
+                current = _openList[i];
+                if (
+                    current.position.x != _from.position.x &&
+                    current.position.y != _from.position.y
+                   )
+                    continue;
+                if (lowest != current) {
+                    if (current.F < lowest.F)
+                        lowest = current;
+                    if (lowest.F == current.F)
+                        if (
+                            current.position.x == _from.position.x ||
+                            current.position.y == _from.position.y
+                           )
+                            lowest = current;
+                }
+            }
+            _from = lowest;
+        }
+        else
+            Debug.LogError("openList is empty");
+        _closedList.Add(_from);
+        _openList.Remove(_from);
+        GetNodes();
+    }
+
+    private List<Node> GetNeighbours() {
+        List<Node> neighbours = new List<Node>();
+        Vector2Int originPos = _from.position;
+        Node current;
+
+        if (originPos.x > 0) {
+           current = _grid[originPos.x - 1][originPos.y];
+            if (
+                !_blackList.Contains(current) &&
+                !_closedList.Contains(current)
+               )
+                neighbours.Add(current);
+        }
+        if (originPos.x < _grid.Length - 1) {
+            current = _grid[originPos.x + 1][originPos.y];
+            if (
+                !_blackList.Contains(current) &&
+                !_closedList.Contains(current)
+               )
+                neighbours.Add(current);
+        }
+        if (originPos.y > 0) {
+            current = _grid[originPos.x][originPos.y - 1];
+            if (
+                !_blackList.Contains(current) &&
+                !_closedList.Contains(current)
+               )
+                neighbours.Add(current);
+        }
+        if (originPos.y < _grid.Length - 1) {
+            current = _grid[originPos.x][originPos.y + 1];
+            if (
+                !_blackList.Contains(current) &&
+                !_closedList.Contains(current)
+               )
+                neighbours.Add(current);
+        }
+
+        return neighbours;
+    }
+
+    private Vector2[] ReverseOrder(List<Node> list) {
+        int count = list.Count;
+        Vector2[] reversedList = new Vector2[count];
+        for (int i = count - 1; i >= 0; i--)
+            reversedList[count - i - 1] = list[i].position;
+        return reversedList;
     }
 }
