@@ -23,6 +23,9 @@ public class ResourceSite : Structure {
     [SerializeField]
     private float _gatherTime = 5f;
 
+    [SerializeField]
+    private TimerGauge _gauge;
+
     private void Start() {
         _tasks = new List<GatherTask>();
         TaskAPI.OnArriveAtTaskLocation += StartTask;
@@ -56,6 +59,8 @@ public class ResourceSite : Structure {
             return;
 
         Timer taskTimer = Timers.Instance.CreateTimer(_gatherTime * task.Amount);
+        TimerGauge gauge = Instantiate(_gauge, transform.GetChild(0).position, Quaternion.identity, GameObject.FindWithTag("Canvas").transform);
+        gauge.AssignedTimer = taskTimer;
 
         _timers.Add(taskTimer);
         task.timer = taskTimer;

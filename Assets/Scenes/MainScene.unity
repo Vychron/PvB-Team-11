@@ -812,7 +812,6 @@ GameObject:
   m_Component:
   - component: {fileID: 844782938}
   - component: {fileID: 844782937}
-  - component: {fileID: 844782939}
   - component: {fileID: 844782940}
   - component: {fileID: 844782941}
   - component: {fileID: 844782942}
@@ -849,20 +848,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &844782939
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 844782936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb642250071e1ff44aa2357b287f1b75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _gauge: {fileID: 8946246154642190455, guid: a6ef0db58edc58e4e8f4ddf563e29178, type: 3}
-  _transform: {fileID: 1354468331}
 --- !u!114 &844782940
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1236,7 +1221,7 @@ GameObject:
   - component: {fileID: 1312699475}
   - component: {fileID: 1312699474}
   m_Layer: 5
-  m_Name: Worl UI
+  m_Name: World UI
   m_TagString: Canvas
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
