@@ -16,6 +16,7 @@ public class GatherResourceAction : MonoBehaviour {
     /// <param name="resourceAmount">The amount od resources to be gathered.</param>
     /// <param name="villager">The villager to be assigned to the resource (Will be randomly selected if left blank).</param>
     public void GatherResource(ResourceTypes resourceType, int resourceAmount, Villager villager = null) {
+        Debug.Log("Gathering " + resourceType);
         ResourceSite site = null;
         List<Structure> structures = LevelGrid.Instance.GetStructures;
         List<ResourceSite> resourceSites = new List<ResourceSite>();
@@ -23,7 +24,8 @@ public class GatherResourceAction : MonoBehaviour {
         foreach (Structure s in structures)
             if (s.GetType() == typeof(ResourceSite)) {
                 site = (ResourceSite)s;
-                resourceSites.Add(site);
+                if (site.resourceType == resourceType)
+                    resourceSites.Add(site);
             }
 
         int siteCount = resourceSites.Count;
