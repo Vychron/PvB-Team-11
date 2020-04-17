@@ -89,33 +89,48 @@ public class LevelGrid : MonoBehaviour {
     /// <param name="structure">The structure you want to place.</param>
     /// <param name="type">The type of tile the structure uses.</param>
     /// <returns>Returns if the position is available.</returns>
-    public bool TryPlace(int x, int y, int length, int width, GameObject structure, TileTypes type, Vector2 entrance) {
+    public bool TryPlace(int x, int y, GameObject structure, TileTypes type, Vector2 entrance) {
+        Structure structureComponent = structure.GetComponent<Structure>();
+        Vector2 size = structureComponent.size;
 
-        // Check if the area is inside of the grid.
+        // Check if the area of the structure is inside of the grid.
         if (
             x < 0 ||
             y < 0 ||
-            x + width > _gridSize ||
-            y + length > _gridSize
+            x + size.x > _gridSize ||
+            y + size.y > _gridSize
            )
             return false;
 
         // Check if the area is available.
-        for (int i = 0; i < width; i++)
-            for (int j = 0; j < length; j++)
+        for (int i = 0; i < size.x; i++)
+            for (int j = 0; j < size.y; j++)
                 if (_grid[i + x][j + y].tileType != TileTypes.Empty)
                     return false;
+
+        // Check if the player has the required resources.
+        Vector3Int cost = structureComponent.buildCost;
+        if (
+            structureComponent.buildCost.x > ResourceContainer.Wood ||
+            structureComponent.buildCost.y > ResourceContainer.Stone ||
+            structureComponent.buildCost.z > ResourceContainer.Food
+           ) {
+            return false;
+        }
+        // Take the required resources from the player.
+        ResourceContainer.Wood -= cost.x;
+        ResourceContainer.Stone -= cost.y;
+        ResourceContainer.Food -= cost.z;
 
         // Place the structure.
         GameObject obj = Instantiate(structure, transform);
         obj.transform.position = new Vector2(x, y);
 
         // Mark the area as structure.
-        for (int i = 0; i < width; i++)
-            for (int j = 0; j < length; j++)
+        for (int i = 0; i < size.x; i++)
+            for (int j = 0; j < size.y; j++)
                 _grid[i + x][j + y].tileType = type;
-
-        Structure structureComponent = obj.GetComponent<Structure>();
+        
         _structures.Add(structureComponent);
         if (entrance != (Vector2.one * -1)) {
             entrance.x += x;
