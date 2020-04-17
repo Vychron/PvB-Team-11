@@ -70,12 +70,15 @@ public class VillagerSpawner : MonoBehaviour {
                 if (house.VillagerCount < house.VillagerCap)
                     break;
             }
-            Villager villager = Instantiate(_villagerPrefab, null);
-            villager.transform.position = new Vector2(location.x, location.y);
-            house.AddVillager(villager);
-            villager.Home = house;
-            yield return new WaitForEndOfFrame();
-            VillagerAPI.JoinVillage(villager);
+            if (house != null) {
+                Debug.LogError(house.name);
+                Villager villager = Instantiate(_villagerPrefab, null);
+                villager.transform.position = new Vector2(location.x, location.y);
+                house.AddVillager(villager);
+                villager.Home = house;
+                yield return new WaitForEndOfFrame();
+                VillagerAPI.JoinVillage(villager);
+            }
         }
     }
 }

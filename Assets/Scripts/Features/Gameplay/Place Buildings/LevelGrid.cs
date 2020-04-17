@@ -84,10 +84,9 @@ public class LevelGrid : MonoBehaviour {
     /// </summary>
     /// <param name="x">X position of the structure's origin.</param>
     /// <param name="y">Y position of the structure's origin.</param>
-    /// <param name="length">Length of the structure.</param>
-    /// <param name="width">Width of the structure.</param>
     /// <param name="structure">The structure you want to place.</param>
     /// <param name="type">The type of tile the structure uses.</param>
+    /// <param name="entrance">The entrance location of the structure.</param>
     /// <returns>Returns if the position is available.</returns>
     public bool TryPlace(int x, int y, GameObject structure, TileTypes type, Vector2 entrance) {
         Structure structureComponent = structure.GetComponent<Structure>();
@@ -130,16 +129,12 @@ public class LevelGrid : MonoBehaviour {
         for (int i = 0; i < size.x; i++)
             for (int j = 0; j < size.y; j++)
                 _grid[i + x][j + y].tileType = type;
-        
-        _structures.Add(structureComponent);
+
+        _structures.Add(obj.GetComponent<Structure>());
         if (entrance != (Vector2.one * -1)) {
             entrance.x += x;
             entrance.y += y;
             SetEntrance(entrance);
-        }
-
-        if (structureComponent.GetType() == typeof(House)) {
-            House house = (House)structureComponent;
         }
         return true;
     }

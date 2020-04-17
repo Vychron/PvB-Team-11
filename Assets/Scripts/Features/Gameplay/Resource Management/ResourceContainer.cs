@@ -22,8 +22,12 @@ public static class ResourceContainer {
         get {
             int populationCap = 0;
             List<Structure> structures = LevelGrid.Instance.GetStructures;
-            foreach (House h in structures) {
-                populationCap += h.VillagerCap;
+            House house = null;
+            foreach (Structure s in structures) {
+                if (s.GetType() == typeof(House)) {
+                    house = (House)s;
+                    populationCap += house.VillagerCap;
+                }
             }
             return populationCap;
         }

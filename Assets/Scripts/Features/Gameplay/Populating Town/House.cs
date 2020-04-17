@@ -15,7 +15,10 @@ public class House : Structure {
     /// Getter for the villager count of the house.
     /// </summary>
     public int VillagerCount {
-        get { return _villagers.Count; }
+        get {
+            if (_villagers == null)
+                _villagers = new List<Villager>();
+            return _villagers.Count; }
     }
 
     /// <summary>
@@ -32,7 +35,11 @@ public class House : Structure {
     /// Getter for a list of villagers living in the house.
     /// </summary>
     public List<Villager> Villagers {
-        get { return _villagers; }
+        get {
+            if (_villagers == null)
+                _villagers = new List<Villager>();
+            return _villagers;
+        }
     }
 
     private List<Villager> _villagers = null;
