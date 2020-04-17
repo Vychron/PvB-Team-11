@@ -7,24 +7,6 @@
 public class ResourceCheat : MonoBehaviour {
 
     /// <summary>
-    /// Edits the population capacity by X.
-    /// </summary>
-    /// <param name="amount">the amount you want to add to the population capacity (negative to subtract).</param>
-    public void EditPopulationCap(int amount) {
-        ResourceContainer.PopulationCap += amount;
-        ResourceAPI.UpdatePopulationCap();
-    }
-
-    /// <summary>
-    /// Edits the population count by X.
-    /// </summary>
-    /// <param name="amount">the amount you want to add to the population count (negative to subtract).</param>
-    public void EditPopulationCount(int amount) {
-        ResourceContainer.PopulationCount += amount;
-        ResourceAPI.UpdatePopulationCap();
-    }
-
-    /// <summary>
     /// Edits the appreciation by X.
     /// </summary>
     /// <param name="amount">the amount you want to add to the appariciation (negative to subtract).</param>

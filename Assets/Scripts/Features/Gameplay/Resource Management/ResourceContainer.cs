@@ -5,44 +5,39 @@
 public static class ResourceContainer {
 
     /// <summary>
-    /// Getter/setter for the population count.
-    /// The set method prevents editing the value out of the bounds of the capacity.
+    /// Getterfor the population count.
     /// </summary>
     public static int PopulationCount {
-        get { return _populationCount; }
-        set {
-            if (value > _populationCap)
-                _populationCount = PopulationCap;
-            else if (value < 1)
-                _populationCount = 1;
-            else
-                _populationCount = value;
+        get {
+            if (_villagers == null)
+                _villagers = new List<Villager>();
+            return _villagers.Count;
         }
     }
-
-    private static int _populationCount = 1;
 
     /// <summary>
-    /// Getter/setter for the population capacity.
+    /// Getter for the population capacity.
     /// </summary>
     public static int PopulationCap {
-        get { return _populationCap; }
-        set {
-            if (value < 1)
-                _populationCap = 1;
-            else
-                _populationCap = value;
+        get {
+            int populationCap = 0;
+            List<Structure> structures = LevelGrid.Instance.GetStructures;
+            foreach (House h in structures) {
+                populationCap += h.VillagerCap;
+            }
+            return populationCap;
         }
     }
-
-    private static int _populationCap = 1;
 
     /// <summary>
     /// Getter setter for the appreciation value of the town.
     /// </summary>
     public static int Appreciation {
         get { return _appreciation; }
-        set { _appreciation = value; }
+        set {
+            _appreciation = value;
+            ResourceAPI.UpdateResources();
+        }
     }
 
     private static int _appreciation = 100;
@@ -58,6 +53,7 @@ public static class ResourceContainer {
                 _wood = 0;
             else
                 _wood = value;
+            ResourceAPI.UpdateResources();
         }
     }
 
@@ -74,6 +70,7 @@ public static class ResourceContainer {
                 _stone = 0;
             else
                 _stone = value;
+            ResourceAPI.UpdateResources();
         }
     }
 
@@ -90,6 +87,7 @@ public static class ResourceContainer {
                 _food = 0;
             else
                 _food = value;
+            ResourceAPI.UpdateResources();
         }
     }
 
@@ -109,10 +107,9 @@ public static class ResourceContainer {
     public static void AddVillager(Villager villager) {
         if (_villagers == null)
             _villagers = new List<Villager>();
-        if (!_villagers.Contains(villager)) {
+        if (!_villagers.Contains(villager))
             _villagers.Add(villager);
-            PopulationCount++;
-        }
+        ResourceAPI.UpdateResources();
     }
 
     /// <summary>
@@ -120,9 +117,10 @@ public static class ResourceContainer {
     /// </summary>
     /// <param name="villager">The villager to remove from the town list.</param>
     public static void RemoveVillager(Villager villager) {
-        if (_villagers.Contains(villager)) {
+        if (_villagers == null)
+            _villagers = new List<Villager>();
+        if (_villagers.Contains(villager))
             _villagers.Remove(villager);
-            PopulationCount--;
-        }
+        ResourceAPI.UpdateResources();
     }
 }

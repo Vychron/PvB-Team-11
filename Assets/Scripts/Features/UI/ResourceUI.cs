@@ -12,15 +12,19 @@ public class ResourceUI : MonoBehaviour {
         _foodText = null;
 
     private void Start() {
+        GridAPI.OnGridCreated += Init;
+    }
+
+    private void Init() {
         ResourceAPI.OnUpdateResources += UpdateResources;
         UpdateResources();
     }
 
     private void UpdateResources() {
-        _populationText.text = "Inwoners: " + ResourceContainer.PopulationCount.ToString() + "/" + ResourceContainer.PopulationCap.ToString();
-        _appreciationText.text = "Waardering: " + ResourceContainer.Appreciation.ToString();
-        _woodText.text = "Hout: " + ResourceContainer.Wood.ToString();
-        _stoneText.text = "Steen: " + ResourceContainer.Stone.ToString();
-        _foodText.text = "Eten: " + ResourceContainer.Food.ToString();
+        _populationText.text = ResourceContainer.PopulationCount.ToString() + "/" + ResourceContainer.PopulationCap.ToString();
+        _appreciationText.text = ResourceContainer.Appreciation.ToString();
+        _woodText.text = ResourceContainer.Wood.ToString();
+        _stoneText.text = ResourceContainer.Stone.ToString();
+        _foodText.text = ResourceContainer.Food.ToString();
     }
 }

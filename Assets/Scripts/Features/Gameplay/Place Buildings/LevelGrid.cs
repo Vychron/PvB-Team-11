@@ -115,13 +115,17 @@ public class LevelGrid : MonoBehaviour {
             for (int j = 0; j < length; j++)
                 _grid[i + x][j + y].tileType = type;
 
-        _structures.Add(obj.GetComponent<Structure>());
+        Structure structureComponent = obj.GetComponent<Structure>();
+        _structures.Add(structureComponent);
         if (entrance != (Vector2.one * -1)) {
             entrance.x += x;
             entrance.y += y;
             SetEntrance(entrance);
         }
 
+        if (structureComponent.GetType() == typeof(House)) {
+            House house = (House)structureComponent;
+        }
         return true;
     }
 

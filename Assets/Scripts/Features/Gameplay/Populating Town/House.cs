@@ -49,6 +49,6 @@ public class House : Structure {
 
     private void Start() {
         _villagers = new List<Villager>();
-        ResourceContainer.PopulationCap += VillagerCap;
+        ResourceAPI.UpdateResources();
     }
 }
