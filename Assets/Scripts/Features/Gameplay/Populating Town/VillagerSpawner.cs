@@ -39,7 +39,6 @@ public class VillagerSpawner : MonoBehaviour {
             yield break;
         CreateNewTimer();
         if (ResourceContainer.Appreciation > 0 && ResourceContainer.PopulationCount < ResourceContainer.PopulationCap) {
-
             Vector2Int location = Vector2Int.zero;
 
             // A couple of random numbers will determine where the villager will be spawned.
@@ -71,13 +70,15 @@ public class VillagerSpawner : MonoBehaviour {
                 if (house.VillagerCount < house.VillagerCap)
                     break;
             }
-            Villager villager = Instantiate(_villagerPrefab, null);
-            ResourceContainer.PopulationCount++;
-            villager.transform.position = new Vector2(location.x, location.y);
-            house.AddVillager(villager);
-            villager.Home = house;
-            yield return new WaitForEndOfFrame();
-            VillagerAPI.JoinVillage(villager);
+            if (house != null) {
+                Debug.LogError(house.name);
+                Villager villager = Instantiate(_villagerPrefab, null);
+                villager.transform.position = new Vector2(location.x, location.y);
+                house.AddVillager(villager);
+                villager.Home = house;
+                yield return new WaitForEndOfFrame();
+                VillagerAPI.JoinVillage(villager);
+            }
         }
     }
 }

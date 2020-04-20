@@ -14,12 +14,19 @@ public class House : Structure {
     /// <summary>
     /// Getter for the villager count of the house.
     /// </summary>
-    public int VillagerCount => _villagers.Count;
+    public int VillagerCount {
+        get {
+            if (_villagers == null)
+                _villagers = new List<Villager>();
+            return _villagers.Count; }
+    }
 
     /// <summary>
     /// Getter for the villager capacity of the house.
     /// </summary>
-    public int VillagerCap => _villagerCap;
+    public int VillagerCap {
+        get { return _villagerCap; }
+    }
 
     [SerializeField]
     private int _villagerCap = 1;
@@ -27,7 +34,13 @@ public class House : Structure {
     /// <summary>
     /// Getter for a list of villagers living in the house.
     /// </summary>
-    public List<Villager> Villagers => _villagers;
+    public List<Villager> Villagers {
+        get {
+            if (_villagers == null)
+                _villagers = new List<Villager>();
+            return _villagers;
+        }
+    }
 
     private List<Villager> _villagers = null;
 
@@ -49,6 +62,6 @@ public class House : Structure {
 
     private void Start() {
         _villagers = new List<Villager>();
-        ResourceContainer.PopulationCap += VillagerCap;
+        ResourceAPI.UpdateResources();
     }
 }

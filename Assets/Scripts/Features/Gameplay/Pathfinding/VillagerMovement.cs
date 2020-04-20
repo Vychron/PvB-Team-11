@@ -21,15 +21,21 @@ public class VillagerMovement : MonoBehaviour {
 
     private void Start() {
         _villager = GetComponent<Villager>();
-        VillagerAPI.OnMovementCompleted += SetNewMoveTimer;
+        VillagerAPI.OnMovementCompleted += MovementCompleted;
         VillagerAPI.OnVillagerArrive += OnJoinVillage;
         TimerAPI.OnTimerEnd += Move;
         _pathfinder = GetComponent<Pathfinder>();
     }
 
-    private void SetNewMoveTimer(Villager villager) {
+    private void MovementCompleted(Villager villager) {
         if (villager != _villager)
             return;
+        if (!_villager.Available)
+            TaskAPI.ArriveAtTaskLocation(_villager);
+        SetNewMoveTimer();
+    }
+
+    private void SetNewMoveTimer() {
         float rand = Random.Range(5f, 20f);
         Debug.Log(rand);
         _moveTimer = Timers.Instance.CreateTimer(rand);
@@ -41,7 +47,7 @@ public class VillagerMovement : MonoBehaviour {
         DefinePath(LevelGrid.Instance.GetTile((Vector2)_villager.Home.transform.position + _villager.Home.entrance));
     }
 
-    private void DefinePath(Node destination) {
+    public void DefinePath(Node destination) {
         _destination = destination.position;
         Vector2 target = destination.position;
         if (destination.tileType == TileTypes.Entrance) {
@@ -54,6 +60,10 @@ public class VillagerMovement : MonoBehaviour {
     private void Move(Timer timer) {
         if (timer != _moveTimer)
             return;
+        if (!_villager.Available) {
+            SetNewMoveTimer();
+            return;
+        }
         _isPathDefined = false;
         _pathfinder.GetPath(transform.position);
     }
@@ -66,6 +76,7 @@ public class VillagerMovement : MonoBehaviour {
         _path = new List<Vector2>(path);
         if (_isPathDefined)
             _path.Add(_destination);
+        StopAllCoroutines();
         StartCoroutine(MoveToNextNode());
     }
 

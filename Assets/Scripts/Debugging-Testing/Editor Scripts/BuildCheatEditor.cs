@@ -11,9 +11,8 @@ public class BuildCheatEditor : Editor {
 
     public override void OnInspectorGUI() {
 
-        if (GUILayout.Button("Place structure.", EditorStyles.miniButton)) {
+        if (GUILayout.Button("Place structure.", EditorStyles.miniButton))
             ((BuildCheat)target).PlaceBuilding();
-        }
 
         DrawDefaultInspector();
     }
