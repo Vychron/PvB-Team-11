@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Comparator is used to compare arguments with each other and returns a boolean based on the outcome.
@@ -105,6 +107,11 @@ public class Comparator : Operation {
                 break;
         }
         return pass;
+    }
+
+    protected override void Start() {
+        List<string> names = new List<string>(Enum.GetNames(typeof(Comparators)));
+        _dropdown.AddOptions(names);
     }
 
     private bool ThouroughComparison(int index) {

@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 
 /// <summary>
 /// Calculation is for simple number operations and returns a numeric value based on the calculation.
@@ -52,5 +54,10 @@ public class Calculation : Operation {
                 break;
         }
         return value;
+    }
+
+    protected override void Start() {
+        List<string> names = new List<string>(Enum.GetNames(typeof(Calculations)));
+        _dropdown.AddOptions(names);
     }
 }
