@@ -32,10 +32,10 @@ public class DragDrop : MonoBehaviour
         // Mouse position relative to it's previous position is being determined.
         Vector2 newPos = _mousePosition - _mousePrevious;
 
-        _block.transform.position = new Vector3
+        _block.transform.position += new Vector3
         (
-            _mousePrevious.x - newPos.x,
-            _mousePrevious.y - newPos.y,
+            newPos.x,
+            newPos.y,
             0
         );
 
@@ -55,53 +55,60 @@ public class DragDrop : MonoBehaviour
                     break;
                 }
             }
-            if (_block.transform.parent != _block.transform.root) {
-                Action action = null;
-                Argument argument = null;
-                if (_block.GetType().IsSubclassOf(typeof(Action))) {
-                    action = (Action)_block;
-                    action.transform.parent.parent.GetComponent<ActionController>().RemoveFromActions(action);
+            if (_block != null)
+                if (_block.transform.parent != _block.transform.root) {
+                    Action action = null;
+                    Argument argument = null;
+                    if (_block.GetType().IsSubclassOf(typeof(Action))) {
+                        action = (Action)_block;
+                        action.transform.parent.parent.GetComponent<ActionController>().RemoveFromActions(action);
+                    }
+                    else if (_block.GetType().IsSubclassOf(typeof(Argument))) {
+                        argument = (Argument)_block;
+                        if (argument.transform.parent.parent.GetType().IsSubclassOf(typeof(Condition)))
+                            argument.transform.parent.parent.GetComponent<Condition>().RemoveFromArguments(argument);
+                        else if (argument.transform.parent.parent.GetType().IsSubclassOf(typeof(Operation)))
+                            argument.transform.parent.parent.GetComponent<Operation>().RemoveFromArguments(argument);
+                    }
                 }
-            }
             SaveOriginPositions();
         }
 
         if (Input.GetMouseButtonUp(0)) {
             List<RaycastResult> results = new List<RaycastResult>();
             _raycaster.Raycast(_data, results);
-            foreach (RaycastResult r in results) {
-                if (r.gameObject == _block.gameObject)
-                    continue;
-                Blockly block = r.gameObject.GetComponent<Blockly>();
-                if (block != null) {
-                    Action action = null;
-                    Argument argument = null;
-                    ActionController controller = null;
-                    Condition condition = null;
-                    Operation operation = null;
-                    if (_block.GetType().IsSubclassOf(typeof(Action)))
-                        action = (Action)_block;
-                    else if (_block.GetType() == typeof(Argument))
-                        argument = (Argument)_block;
-                    if (block.GetType().IsSubclassOf(typeof(ActionController))) {
-                        controller = (ActionController)block;
-                        controller.AddToActions(action);
-                        break;
+            if (_block != null)
+                foreach (RaycastResult r in results) {
+                    if (r.gameObject == _block.gameObject)
+                        continue;
+                    Blockly block = r.gameObject.GetComponent<Blockly>();
+                    if (block != null) {
+                        Action action = null;
+                        Argument argument = null;
+                        ActionController controller = null;
+                        Condition condition = null;
+                        Operation operation = null;
+                        if (_block.GetType().IsSubclassOf(typeof(Action)))
+                            action = (Action)_block;
+                        else if (_block.GetType() == typeof(Argument))
+                            argument = (Argument)_block;
+                        if (block.GetType().IsSubclassOf(typeof(ActionController))) {
+                            controller = (ActionController)block;
+                            controller.AddToActions(action);
+                            break;
+                        }
+                        if (block.GetType().IsSubclassOf(typeof(Condition))) {
+                            condition = (Condition)block;
+                            condition.AddToArguments(argument);
+                            break;
+                        }
+                        else if (block.GetType().IsSubclassOf(typeof(Operation))) {
+                            operation = (Operation)block;
+                            operation.AddToArguments(argument);
+                            break;
+                        }
                     }
-                    if (block.GetType().IsSubclassOf(typeof(Condition))) {
-                        condition = (Condition)block;
-                        condition.AddToArguments(argument);
-                        break;
-                    }
-                    else if (block.GetType().IsSubclassOf(typeof(Operation))) {
-                        operation = (Operation)block;
-                        operation.AddToArguments(argument);
-                        break;
-                    }
-
-                        
                 }
-            }
             _block = null;
             SaveOriginPositions();
         }
