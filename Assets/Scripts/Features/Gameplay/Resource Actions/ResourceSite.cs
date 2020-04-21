@@ -24,7 +24,7 @@ public class ResourceSite : Structure {
     private float _gatherTime = 5f;
 
     [SerializeField]
-    private TimerGauge _gauge;
+    private TimerGauge _gauge = null;
 
     private void Start() {
         _tasks = new List<GatherTask>();

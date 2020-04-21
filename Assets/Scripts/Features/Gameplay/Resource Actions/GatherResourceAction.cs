@@ -1,13 +1,33 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Creates actions for resource gathering.
 /// </summary>
-public class GatherResourceAction : MonoBehaviour {
+public class GatherResourceAction : Action {
 
-    public ResourceTypes resource;
-    public int amount;
+    private ResourceTypes _resource => (ResourceTypes)_dropdown.value;
+
+    private int _amount => int.Parse(_input.text);
+
+    [SerializeField]
+    private InputField _input;
+
+    [SerializeField]
+    private Dropdown _dropdown = null;
+
+    private Villager _villager = null;
+
+    private void Start() {
+        List<string> names = new List<string>(Enum.GetNames(typeof(ResourceTypes)));
+        _dropdown.AddOptions(names);
+    }
+
+    public override void Execute() {
+        GatherResource(_resource, _amount, _villager);
+    }
 
     /// <summary>
     /// Create an action for gathering a resource.
@@ -30,7 +50,7 @@ public class GatherResourceAction : MonoBehaviour {
 
         int siteCount = resourceSites.Count;
         if (siteCount > 0) {
-            int randSite = Random.Range(0, siteCount);
+            int randSite = UnityEngine.Random.Range(0, siteCount);
             site = resourceSites[randSite];
         }
         if (site == null)
@@ -47,7 +67,7 @@ public class GatherResourceAction : MonoBehaviour {
 
             int villagerCount = available.Count;
             if (villagerCount > 0) {
-                int randVillager = Random.Range(0, villagerCount);
+                int randVillager = UnityEngine.Random.Range(0, villagerCount);
                 assignee = available[randVillager];
             }
         }
@@ -57,6 +77,4 @@ public class GatherResourceAction : MonoBehaviour {
         VillagerAPI.MovementAssigned(assignee, (Vector2)site.transform.position + site.entrance);
         site.AddTask(new GatherTask(assignee, resourceType, resourceAmount));
     }
-
-
 }
