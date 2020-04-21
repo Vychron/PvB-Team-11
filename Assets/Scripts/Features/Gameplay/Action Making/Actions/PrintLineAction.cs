@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// A simple action to print a line to the console.
@@ -6,7 +7,10 @@
 public class PrintLineAction : Action {
 
     [SerializeField]
-    private string _text = "";
+    private InputField _input = null;
+
+    [SerializeField]
+    private string _text => _input.text;
 
     public override void Execute() {
         print(_text);

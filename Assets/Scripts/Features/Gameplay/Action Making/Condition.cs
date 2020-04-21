@@ -6,6 +6,7 @@ using UnityEngine;
 /// </summary>
 public abstract class Condition : ActionController {
 
+    [SerializeField]
     protected List<Argument> _arguments;
 
     [SerializeField]
@@ -21,7 +22,7 @@ public abstract class Condition : ActionController {
         if (_arguments == null)
             _arguments = new List<Argument>();
         _arguments.Add(a);
-        a.transform.parent = _actionsContainer;
+        a.transform.SetParent(_argumentsContainer);
     }
 
     /// <summary>
@@ -32,6 +33,6 @@ public abstract class Condition : ActionController {
         if (!_arguments.Contains(a))
             return;
         _arguments.Remove(a);
-        a.transform.parent = transform.root;
+        a.transform.SetParent(transform.root);
     }
 }

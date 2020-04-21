@@ -8,7 +8,7 @@ using UnityEngine;
 public class Calculation : Operation {
 
     [SerializeField]
-    private Calculations _calculation = Calculations.Plus;
+    private Calculations _calculation => (Calculations)_dropdown.value;
 
     public override float GetValue() {
         int count = _arguments.Count;

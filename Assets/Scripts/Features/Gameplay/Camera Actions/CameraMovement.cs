@@ -28,6 +28,9 @@ public class CameraMovement : MonoBehaviour {
         _rightBoundary = transform.position.x + _boundary;
         _topBoundary = transform.position.x + _boundary;
         _bottomBoundary = transform.position.x - _boundary;
+
+        CanvasAPI.OnCanvasEnabled += () => { _canDrag = false; };
+        CanvasAPI.OnCanvasDisabled += () => { _canDrag = true; };
     }
 
     private void SaveOriginPositions() {
@@ -54,6 +57,9 @@ public class CameraMovement : MonoBehaviour {
     }
 
     private void Update() {
+        if (!_canDrag)
+            return;
+
         if (
             Input.GetMouseButtonDown(0) ||
             Input.GetMouseButtonUp(0) 
