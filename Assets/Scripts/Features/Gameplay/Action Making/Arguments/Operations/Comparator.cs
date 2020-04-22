@@ -129,4 +129,37 @@ public class Comparator : Operation {
         else
             return true;
     }
+
+    public override string GetText() {
+        string output = "";
+        int count = _arguments.Count;
+        if (count > 0) {
+            output += "(" + _arguments[0].GetText();
+            for (int i = 1; i < count; i++) {
+                switch (_comparator) {
+                    case Comparators.GroterDanOfGelijkAan:
+                        output += " >= ";
+                        break;
+                    case Comparators.GroterDan:
+                        output += " > ";
+                        break;
+                    case Comparators.KleinerDanOfGelijkAan:
+                        output += " <= ";
+                        break;
+                    case Comparators.KleinerDan:
+                        output += " < ";
+                        break;
+                    case Comparators.NietGelijkAan:
+                        output += " != ";
+                        break;
+                    default:
+                        output += " == ";
+                        break;
+                }
+                output += _arguments[i].GetText();
+            }
+            output += ")";
+        }
+        return output;
+    }
 }

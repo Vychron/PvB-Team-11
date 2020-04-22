@@ -77,4 +77,12 @@ public class GatherResourceAction : Action {
         VillagerAPI.MovementAssigned(assignee, (Vector2)site.transform.position + site.entrance);
         site.AddTask(new GatherTask(assignee, resourceType, resourceAmount));
     }
+
+    public override string GetText() {
+        string indent = "";
+        _depth = GetDepth();
+        for (int i = 0; i < _depth; i++)
+            indent += " ";
+        return indent + "Gather(Resources." + _resource.ToString() + ", " + _amount.ToString() + ");";
+    }
 }

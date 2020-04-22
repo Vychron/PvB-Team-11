@@ -60,4 +60,31 @@ public class Calculation : Operation {
         List<string> names = new List<string>(Enum.GetNames(typeof(Calculations)));
         _dropdown.AddOptions(names);
     }
+
+    public override string GetText() {
+        string output = "";
+        int count = _arguments.Count;
+        if (count > 0) {
+            output += "(" + _arguments[0].GetText();
+            for (int i = 1; i < count; i++) {
+                switch (_calculation) {
+                    case Calculations.GedeeldDoor:
+                        output += " ÷ ";
+                        break;
+                    case Calculations.Keer:
+                        output += " × ";
+                        break;
+                    case Calculations.Min:
+                        output += " - ";
+                        break;
+                    default:
+                        output += " + ";
+                        break;
+                }
+                output += _arguments[i].GetText();
+            }
+            output += ")";
+        }
+        return output;
+    }
 }
