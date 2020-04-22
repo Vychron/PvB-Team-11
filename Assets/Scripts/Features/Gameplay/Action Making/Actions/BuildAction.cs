@@ -31,4 +31,12 @@ public class BuildAction : Action {
         else
             Debug.LogWarning("Geen object gevonden om te plaatsen.");
     }
+
+    public override string GetText() {
+        string indent = "";
+        _depth = GetDepth();
+        for (int i = 0; i < _depth; i++)
+            indent += " ";
+        return indent + "Build(" + _x.ToString() + ", " + _y.ToString() + ", \"" + _objectName + "\");";
+    }
 }

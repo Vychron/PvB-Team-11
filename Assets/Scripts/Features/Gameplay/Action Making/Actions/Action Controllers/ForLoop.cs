@@ -28,4 +28,22 @@ public class ForLoop : ActionController {
             for (int j = 0; j < count; j++)
                 _actions[j].Execute();
     }
+
+    public override string GetText() {
+        string output = "";
+
+        string indent = "";
+        _depth = GetDepth();
+        for (int i = 0; i < _depth; i++)
+            indent += " ";
+
+        output += indent + "for ( int i = 0; i < " + _count + "; i++)\n" + indent + "{";
+        int count = _actions.Count;
+        if (count > 0)
+            for (int i = 0; i < count; i++)
+                output += "\n" + _actions[i].GetText();
+
+        output += "\n" + indent + "}";
+        return output;
+    }
 }

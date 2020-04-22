@@ -32,4 +32,32 @@ public class IfStatement : Condition {
         for (int i = 0; i < actionCount; i++)
             _actions[i].Execute();
     }
+
+    public override string GetText() {
+        string output = "";
+
+        string indent = "";
+        _depth = GetDepth();
+        for (int i = 0; i < _depth; i++)
+            indent += " ";
+
+        output += indent + "if (";
+
+        int argCount = _arguments.Count;
+        if (argCount > 0) {
+            output += _arguments[0].GetText();
+            for (int i = 1; i < argCount; i++)
+                output += " && " + _arguments[i].GetText();
+        }
+
+        output += ")\n" + indent + "{";
+
+        int actionCount = _actions.Count;
+        if (actionCount > 0)
+            for (int j = 0; j < actionCount; j++)
+                output += "\n" + _actions[j].GetText();
+
+        output += "\n" + indent + "}";
+        return output;
+    }
 }

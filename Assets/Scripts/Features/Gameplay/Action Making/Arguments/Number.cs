@@ -11,4 +11,8 @@ public class Number : Argument {
     public override float GetValue() {
         return _value;
     }
+
+    public override string GetText() {
+        return _value.ToString();
+    }
 }
