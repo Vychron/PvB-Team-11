@@ -49,6 +49,8 @@ public class House : Structure {
     /// </summary>
     /// <param name="villager">The villager to add to the house.</param>
     public void AddVillager(Villager villager) {
+        if (_villagers == null)
+            _villagers = new List<Villager>();
         _villagers.Add(villager);
     }
 

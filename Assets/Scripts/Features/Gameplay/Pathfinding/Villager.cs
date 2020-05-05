@@ -5,6 +5,9 @@
 /// </summary>
 public class Villager : MonoBehaviour {
 
+
+    public bool IsImmune = false;
+
     public House Home {
         get {
             return _home;
