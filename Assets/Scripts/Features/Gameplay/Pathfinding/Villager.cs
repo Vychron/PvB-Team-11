@@ -5,6 +5,14 @@
 /// </summary>
 public class Villager : MonoBehaviour {
 
+    /// <summary>
+    /// Whether or not the villager has immunity to negative satisfaction.
+    /// </summary>
+    public bool IsImmune = false;
+
+    /// <summary>
+    /// The home the villager lives in.
+    /// </summary>
     public House Home {
         get {
             return _home;

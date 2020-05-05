@@ -26,8 +26,15 @@ public class BuildAction : Action {
     public void PlaceBuilding() {
         GameObject obj = null;
         obj = Resources.Load("Prefabs/Buildings/" + _objectName) as GameObject;
-        if (obj)
-            LevelGrid.Instance.TryPlace(_x, _y, obj, Vector2Int.zero);
+        if (obj) {
+            Structure str = obj.GetComponent<Structure>();
+            if (str.GetType() == typeof(House)) {
+                House house = (House)str;
+                LevelGrid.Instance.TryPlace(_x, _y, obj, house.entrance);
+            }
+            else
+                LevelGrid.Instance.TryPlace(_x, _y, obj, Vector2Int.zero);
+        }
         else
             Debug.LogWarning("Geen object gevonden om te plaatsen.");
     }
