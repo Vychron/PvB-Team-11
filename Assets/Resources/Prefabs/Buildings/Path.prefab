@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8609c99e94ca762409b4e6961be6ba8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 0, y: 0}
+  size: {x: 1, y: 1}
   tileType: 2
   buildCost: {x: 0, y: 2, z: 0}
+  _sprite: {fileID: 5261726975700223680}
 --- !u!1 &8946970108838970101
 GameObject:
   m_ObjectHideFlags: 0

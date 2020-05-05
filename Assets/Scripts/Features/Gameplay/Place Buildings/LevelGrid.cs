@@ -152,7 +152,9 @@ public class LevelGrid : MonoBehaviour {
             entrance.y += y;
             SetEntrance(entrance);
         }
+        GridAPI.UpdateGrid();
         return true;
+        
     }
 
     /// <summary>
