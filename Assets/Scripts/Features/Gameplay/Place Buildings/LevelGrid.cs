@@ -80,6 +80,23 @@ public class LevelGrid : MonoBehaviour {
     }
 
     /// <summary>
+    /// Checks if a given area is empty.
+    /// </summary>
+    /// <param name="x">Leftmost X coordinate of the area.</param>
+    /// <param name="y">Bottom-most Y coordinate of the area.</param>
+    /// <param name="width">The width of the area.</param>
+    /// <param name="length">The Length of the area.</param>
+    /// <returns>Returns if the area is empty.</returns>
+    public bool CheckArea(int x, int y, int width, int length) {
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < length; j++)
+                if (_grid[i + x][j + y].tileType != TileTypes.Empty)
+                    return false;
+
+        return true;
+    }
+
+    /// <summary>
     /// Checks if the structure can be placed at the selected location.
     /// </summary>
     /// <param name="x">X position of the structure's origin.</param>
@@ -102,10 +119,9 @@ public class LevelGrid : MonoBehaviour {
             return false;
 
         // Check if the area is available.
-        for (int i = 0; i < size.x; i++)
-            for (int j = 0; j < size.y; j++)
-                if (_grid[i + x][j + y].tileType != TileTypes.Empty)
-                    return false;
+        bool available = CheckArea(x, y, (int)size.x, (int)size.y);
+        if (!available)
+            return false;
 
         // Check if the player has the required resources.
         Vector3Int cost = structureComponent.buildCost;
