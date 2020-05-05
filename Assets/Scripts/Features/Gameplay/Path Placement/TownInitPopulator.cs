@@ -34,7 +34,7 @@ public class TownInitPopulator : MonoBehaviour {
         _home.GetComponent<House>().AddVillager(vil);
     }
 
-    public GameObject PlaceObject(GameObject obj, int x, int y) {
+    private GameObject PlaceObject(GameObject obj, int x, int y) {
         GameObject placedObj = Instantiate(obj, new Vector2(x, y), Quaternion.identity, LevelGrid.Instance.transform);
 
         Structure str = placedObj.GetComponent<Structure>();
