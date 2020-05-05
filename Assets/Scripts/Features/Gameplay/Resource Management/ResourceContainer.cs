@@ -78,7 +78,7 @@ public static class ResourceContainer {
         }
     }
 
-    private static int _stone = 10;
+    private static int _stone = 12;
 
     /// <summary>
     /// Getter setter for the amount of food the player has.
