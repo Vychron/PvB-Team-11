@@ -9,7 +9,7 @@ public class ForLoop : ActionController {
     [SerializeField]
     private int _count = 0;
 
-    public override void Execute() {
+    public override void Execute(Villager villager = null) {
         /*
             To avoid confusion about private int _count and local int count:
             The private int _count is the amount of iterations the for loop will make.
@@ -26,7 +26,7 @@ public class ForLoop : ActionController {
         }
         for (int i = 0; i < _count; i++)
             for (int j = 0; j < count; j++)
-                _actions[j].Execute();
+                _actions[j].Execute(villager);
     }
 
     public override string GetText() {

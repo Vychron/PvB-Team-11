@@ -13,20 +13,18 @@ public class GatherResourceAction : Action {
     private int _amount => int.Parse(_input.text);
 
     [SerializeField]
-    private InputField _input;
+    private InputField _input = null;
 
     [SerializeField]
     private Dropdown _dropdown = null;
-
-    private Villager _villager = null;
 
     private void Start() {
         List<string> names = new List<string>(Enum.GetNames(typeof(ResourceTypes)));
         _dropdown.AddOptions(names);
     }
 
-    public override void Execute() {
-        GatherResource(_resource, _amount, _villager);
+    public override void Execute(Villager villager = null) {
+        GatherResource(_resource, _amount, villager);
     }
 
     /// <summary>

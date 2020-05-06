@@ -5,7 +5,7 @@
 /// </summary>
 public class Controller : ActionController {
 
-    public override void Execute() {
+    public override void Execute(Villager villager = null) {
         if (_actions == null)
             return;
         int count = _actions.Count;
@@ -14,7 +14,7 @@ public class Controller : ActionController {
             return;
         }
         for (int i = 0; i < count; i++)
-            _actions[i].Execute();
+            _actions[i].Execute(villager);
     }
 
     public override string GetText() {

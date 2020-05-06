@@ -12,7 +12,7 @@ public class PrintLineAction : Action {
     [SerializeField]
     private string _text => _input.text;
 
-    public override void Execute() {
+    public override void Execute(Villager villager = null) {
         print(_text);
     }
 
