@@ -63,7 +63,8 @@ public class House : Structure {
     }
 
     private void Start() {
-        _villagers = new List<Villager>();
+        if (_villagers == null)
+            _villagers = new List<Villager>();
         ResourceAPI.UpdateResources();
     }
 }
