@@ -1121,6 +1121,7 @@ GameObject:
   - component: {fileID: 3382131386396434927}
   - component: {fileID: -5888459585580807473}
   - component: {fileID: -8327845328800330505}
+  - component: {fileID: 4423994334443613288}
   m_Layer: 5
   m_Name: Place Path Action
   m_TagString: Untagged
@@ -1221,7 +1222,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _x: {fileID: 1261824700677701970}
   _y: {fileID: 2678310700173004176}
-  _selected: 0
 --- !u!114 &-8327845328800330505
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1265,6 +1265,24 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
+--- !u!114 &4423994334443613288
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7043425639261125111}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 78fdcf4eafc44e24c901560b4a76f84d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _x: {fileID: 1261824700677701970}
+  _y: {fileID: 2678310700173004176}
+  _width: {fileID: 8479839986049416743}
+  _height: {fileID: 4587297006708188524}
+  _object: {fileID: 0}
+  _prefab: {fileID: 0}
 --- !u!1 &7914411265720856223
 GameObject:
   m_ObjectHideFlags: 0

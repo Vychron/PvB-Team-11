@@ -7,8 +7,7 @@ public class GridVisualizer : MonoBehaviour {
     [SerializeField]
     private Transform
         _hor = null,
-        _vert = null,
-        _backdrop = null;
+        _vert = null;
 
     private void Update() {
         _zeroPos = Camera.main.ScreenToWorldPoint(Vector3.zero);

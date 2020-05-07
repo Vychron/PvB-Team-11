@@ -12,7 +12,7 @@ public class ActionsCameraMover : MonoBehaviour {
         _x = null,
         _y = null;
 
-    private bool _selected;
+    private bool _selected = false;
 
     private Camera _cam => Camera.main;
 

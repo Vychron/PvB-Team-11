@@ -4,7 +4,7 @@ using UnityEngine.UI;
 public class GridNumbering : MonoBehaviour {
 
     [SerializeField]
-    private GameObject _coordinate;
+    private GameObject _coordinate = null;
 
     [SerializeField]
     private bool _reversedOrder = false;
