@@ -37,6 +37,8 @@ public class Villager : MonoBehaviour {
     private void Start() {
         VillagerAPI.OnMovementAssigned += MovementAssigned;
         TaskAPI.OnTaskCompleted += TaskCompleted;
+        string[] names = VillagerNames.Instance.Names;
+        name = names[Random.Range(0, names.Length)];
     }
 
     private void MovementAssigned(Villager villager, Vector2 location) {

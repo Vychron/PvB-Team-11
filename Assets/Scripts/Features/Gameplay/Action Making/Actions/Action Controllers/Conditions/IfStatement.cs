@@ -5,7 +5,7 @@
 /// </summary>
 public class IfStatement : Condition {
 
-    public override void Execute() {
+    public override void Execute(Villager villager = null) {
         int argsCount = _arguments.Count;
         if (argsCount == 0) {
             Debug.LogError("Er zijn geen voorwaarden gegeven aan de actie(s).");
@@ -30,7 +30,7 @@ public class IfStatement : Condition {
             return;
         }
         for (int i = 0; i < actionCount; i++)
-            _actions[i].Execute();
+            _actions[i].Execute(villager);
     }
 
     public override string GetText() {

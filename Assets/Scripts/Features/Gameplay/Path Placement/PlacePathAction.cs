@@ -21,7 +21,7 @@ public class PlacePathAction : Action {
         _widthField = null,
         _heightField = null;
 
-    public override void Execute() {
+    public override void Execute(Villager villager = null) {
         PlacePaths();
     }
 
