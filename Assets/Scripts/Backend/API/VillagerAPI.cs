@@ -10,9 +10,14 @@ public static class VillagerAPI {
     public static VillagerEvent OnMovementCompleted;
 
     /// <summary>
-    /// Event to be called when a villager Arrives in town.
+    /// Event to be called when a villager arrives in town.
     /// </summary>
     public static VillagerEvent OnVillagerArrive;
+
+    /// <summary>
+    /// Event to be called when a villager leaves town.
+    /// </summary>
+    public static VillagerEvent OnLeaveVillage;
 
     /// <summary>
     /// Event to be called when new movement is assigned to a villager.
@@ -34,6 +39,15 @@ public static class VillagerAPI {
     public static void JoinVillage(Villager villager) {
         ResourceContainer.AddVillager(villager);
         OnVillagerArrive?.Invoke(villager);
+    }
+
+    /// <summary>
+    /// Calls the OnVillagerLeave event.
+    /// </summary>
+    /// <param name="villager">The villager the event is directed at.</param>
+    public static void LeaveVillage(Villager villager) {
+        ResourceContainer.RemoveVillager(villager);
+        OnLeaveVillage?.Invoke(villager);
     }
 
     /// <summary>

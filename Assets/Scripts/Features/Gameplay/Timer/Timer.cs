@@ -31,6 +31,13 @@ public class Timer {
     }
 
     /// <summary>
+    /// Ends the timer (events associated with this timer will not be executed).
+    /// </summary>
+    public void EndTimer() {
+        _ended = true;
+    }
+
+    /// <summary>
     /// Returns the how much time on the timer has passed.
     /// </summary>
     /// <returns>Returns the time passed since the timer has been created.</returns>

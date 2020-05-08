@@ -29,6 +29,15 @@ public class Timers : MonoBehaviour {
 
         Instance = this;
         TimerAPI.OnTimerEnd += RemoveTimer;
+        VillagerAPI.OnLeaveVillage += DeleteAssociatedTimers;
+    }
+
+    private void DeleteAssociatedTimers(Villager villager) {
+        foreach (Timer t in _timers)
+            if (villager.GetComponent<VillagerMovement>().GetMoveTimer == t) {
+                t.EndTimer();
+                _removeQueue.Add(t);
+            }
     }
 
     private void Update() {
@@ -36,12 +45,15 @@ public class Timers : MonoBehaviour {
         // First check if there are any timers to remove from the list.
         _deleteCount = _removeQueue.Count;
         if (_deleteCount > 0) {
-            // Then remove them from the list before updating the timers.
-            for (int i = 0; i < _deleteCount; i++)
-                _timers.Remove(_removeQueue[i]);
-            // Afterwards, clear the list of timers to be removed.
-            for (int i = 0; i < _deleteCount; i++)
-                _removeQueue.Remove(_removeQueue[i]);
+            /*
+             * Then remove them from the list before updating the timers,
+             * iterating backwards to prevent shifting.
+            */
+            for (int i = _deleteCount - 1; i >= 0; i--)
+                    _timers.Remove(_removeQueue[i]);
+            // Afterwards, clear the list of timers to be removed, also iterating backwards.
+            for (int i = _deleteCount - 1; i >=0; i--)
+                    _removeQueue.Remove(_removeQueue[i]);
         }
 
         // Update all timers (the timers don't derive from MonoBehaviour and have to be updated manually).
