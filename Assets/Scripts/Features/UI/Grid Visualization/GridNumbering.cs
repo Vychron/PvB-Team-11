@@ -12,7 +12,7 @@ public class GridNumbering : MonoBehaviour {
     [SerializeField]
     private bool _reversedOrder = false;
 
-    void Start() {
+    private void Start() {
         int size = LevelGrid.Instance.GetGrid.Length;
         if (_reversedOrder)
             _coordinate.GetComponent<Text>().text = size.ToString();
