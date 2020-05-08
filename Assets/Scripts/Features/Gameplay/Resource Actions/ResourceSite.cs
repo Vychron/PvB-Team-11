@@ -59,7 +59,7 @@ public class ResourceSite : Structure {
             return;
 
         Timer taskTimer = Timers.Instance.CreateTimer(_gatherTime * task.Amount);
-        TimerGauge gauge = Instantiate(_gauge, transform.GetChild(0).position, Quaternion.identity, GameObject.FindWithTag("Canvas").transform);
+        TimerGauge gauge = Instantiate(_gauge, transform.position + ((Vector3)size / 2), Quaternion.identity, GameObject.FindWithTag("Canvas").transform);
         gauge.AssignedTimer = taskTimer;
 
         _timers.Add(taskTimer);
