@@ -23,7 +23,7 @@ public class ActionHighlight : MonoBehaviour {
     private Transform _highlight => Highlighter.Instance.transform;
 
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         if (Input.GetMouseButtonDown(0)) {
             if (EventSystem.current.currentSelectedGameObject == gameObject)
                 _selected = true;
