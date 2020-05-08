@@ -9,6 +9,10 @@ public class VillagerMovement : MonoBehaviour {
 
     private Villager _villager;
 
+    public Timer GetMoveTimer {
+        get { return _moveTimer; }
+    }
+
     private Timer _moveTimer = null;
 
     private List<Vector2> _path;
@@ -32,6 +36,15 @@ public class VillagerMovement : MonoBehaviour {
             return;
         if (!_villager.Available)
             TaskAPI.ArriveAtTaskLocation(_villager);
+        if (villager.IsLeavingTown) {
+            VillagerAPI.OnMovementCompleted -= MovementCompleted;
+            VillagerAPI.OnVillagerArrive -= OnJoinVillage;
+            TimerAPI.OnTimerEnd -= Move;
+            _moveTimer = null;
+            DestroyImmediate(gameObject);
+            return;
+        }
+
         SetNewMoveTimer();
     }
 

@@ -29,6 +29,15 @@ public class Timers : MonoBehaviour {
 
         Instance = this;
         TimerAPI.OnTimerEnd += RemoveTimer;
+        VillagerAPI.OnLeaveVillage += DeleteAssociatedTimers;
+    }
+
+    private void DeleteAssociatedTimers(Villager villager) {
+        foreach (Timer t in _timers)
+            if (villager.GetComponent<VillagerMovement>().GetMoveTimer == t) {
+                t.EndTimer();
+                _removeQueue.Add(t);
+            }
     }
 
     private void Update() {

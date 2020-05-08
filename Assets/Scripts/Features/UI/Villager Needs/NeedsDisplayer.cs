@@ -67,8 +67,12 @@ public class NeedsDisplayer : MonoBehaviour {
     }
 
     private void Update() {
-        if (!_enabled)
+        if (
+            !_enabled ||
+            _villager == null
+           )
             return;
+
         _needs = _villager.GetComponent<VillagerNeeds>().GetNeeds;
         _name.text = _villager.name;
         _hungerGauge.Need = _needs.x;

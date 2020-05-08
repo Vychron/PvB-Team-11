@@ -11,6 +11,11 @@ public class Villager : MonoBehaviour {
     public bool IsImmune = false;
 
     /// <summary>
+    /// Whether or not the villager is leaving town.
+    /// </summary>
+    public bool IsLeavingTown = false;
+
+    /// <summary>
     /// The home the villager lives in.
     /// </summary>
     public House Home {
@@ -37,6 +42,7 @@ public class Villager : MonoBehaviour {
     private void Start() {
         VillagerAPI.OnMovementAssigned += MovementAssigned;
         TaskAPI.OnTaskCompleted += TaskCompleted;
+        VillagerAPI.OnLeaveVillage += LeaveVillage;
         string[] names = VillagerNames.Instance.Names;
         name = names[Random.Range(0, names.Length)];
     }
@@ -56,7 +62,18 @@ public class Villager : MonoBehaviour {
 
     private void OnMouseOver() {
         if (Input.GetMouseButtonDown(0))
-            NeedsDisplayer.Instance.Enable(this);
+            NeedsDisplayer.Instance?.Enable(this);
+    }
+
+    private void LeaveVillage(Villager villager) {
+        if (villager != this)
+            return;
+        GetComponent<VillagerMovement>().DefinePath(LevelGrid.Instance.GetTile(new Vector2(LevelGrid.Instance.GetGrid.Length / 2, 0)));
+        IsLeavingTown = true;
+        _home = null;
+        VillagerAPI.OnMovementAssigned -= MovementAssigned;
+        TaskAPI.OnTaskCompleted -= TaskCompleted;
+        VillagerAPI.OnLeaveVillage -= LeaveVillage;
     }
 
 }

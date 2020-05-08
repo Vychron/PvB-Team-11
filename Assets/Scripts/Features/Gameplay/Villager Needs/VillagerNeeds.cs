@@ -23,10 +23,11 @@ public class VillagerNeeds : MonoBehaviour {
         _satisfaction = 100;
 
     [SerializeField]
-    private int
-        _hungerTime = 7,
-        _boredomTime = 5,
-        _appreciationTime = 10;
+    private float
+        _hungerTime = 7f,
+        _boredomTime = 5f,
+        _appreciationTime = 10f,
+        _minimalSatisfacion = -500f;
 
     private void Start() {
         TimerAPI.OnTimerEnd += NewHungerTimer;
@@ -82,10 +83,28 @@ public class VillagerNeeds : MonoBehaviour {
             _satisfaction++;
 
         ResourceContainer.Appreciation += Mathf.FloorToInt(_satisfaction / 100);
+
+        if (
+            _satisfaction < _minimalSatisfacion &&
+            !GetComponent<Villager>().IsImmune
+           ) {
+            VillagerAPI.LeaveVillage(GetComponent<Villager>());
+        }
     }
 
+    /// <summary>
+    /// Updates needs by adding values to hunger and boredom.
+    /// </summary>
+    /// <param name="hunger">The amount of hunger to be added to the total.</param>
+    /// <param name="boredom">The amount of boredom to be added to the total.</param>
     public void UpdateNeeds(int hunger = 0, int boredom = 0) {
         _hunger += hunger;
         _boredom += boredom;
+    }
+
+    void OnDestroy() {
+        TimerAPI.OnTimerEnd -= NewHungerTimer;
+        TimerAPI.OnTimerEnd -= NewBoredomTimer;
+        TimerAPI.OnTimerEnd -= UpdateAppreciation;
     }
 }

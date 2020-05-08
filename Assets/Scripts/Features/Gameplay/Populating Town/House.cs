@@ -59,6 +59,8 @@ public class House : Structure {
     /// </summary>
     /// <param name="villager">The villager to be removed from the house.</param>
     public void RemoveVillager(Villager villager) {
+        if (!_villagers.Contains(villager))
+            return;
         _villagers.Remove(villager);
     }
 
@@ -66,5 +68,6 @@ public class House : Structure {
         if (_villagers == null)
             _villagers = new List<Villager>();
         ResourceAPI.UpdateResources();
+        VillagerAPI.OnLeaveVillage += RemoveVillager;
     }
 }
