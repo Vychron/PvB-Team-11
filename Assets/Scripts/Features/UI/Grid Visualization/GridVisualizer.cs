@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Positions coordinate numbers of the grid to be always against the lower- and left border of the screen.
+/// </summary>
 public class GridVisualizer : MonoBehaviour {
 
     private Vector3 _zeroPos = Vector3.zero;

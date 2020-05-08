@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Creates visual numbers to correspond with coordinates of the grid.
+/// </summary>
 public class GridNumbering : MonoBehaviour {
 
     [SerializeField]
