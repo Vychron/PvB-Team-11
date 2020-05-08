@@ -9,6 +9,9 @@ public class VillagerMovement : MonoBehaviour {
 
     private Villager _villager;
 
+    /// <summary>
+    /// Returns the timer the villager uses for movement actions.
+    /// </summary>
     public Timer GetMoveTimer {
         get { return _moveTimer; }
     }

@@ -102,7 +102,7 @@ public class VillagerNeeds : MonoBehaviour {
         _boredom += boredom;
     }
 
-    void OnDestroy() {
+    private void OnDestroy() {
         TimerAPI.OnTimerEnd -= NewHungerTimer;
         TimerAPI.OnTimerEnd -= NewBoredomTimer;
         TimerAPI.OnTimerEnd -= UpdateAppreciation;
