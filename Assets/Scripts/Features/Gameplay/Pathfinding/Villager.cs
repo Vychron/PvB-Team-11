@@ -54,4 +54,9 @@ public class Villager : MonoBehaviour {
         _available = true;
     }
 
+    private void OnMouseOver() {
+        if (Input.GetMouseButtonDown(0))
+            NeedsDisplayer.Instance.Enable(this);
+    }
+
 }
