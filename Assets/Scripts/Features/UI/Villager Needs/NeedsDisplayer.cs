@@ -47,7 +47,6 @@ public class NeedsDisplayer : MonoBehaviour {
 
     private IEnumerator EnableRoutine(Villager villager) {
         _villager = villager;
-        _needs = _villager.GetComponent<VillagerNeeds>().GetNeeds;
         transform.GetChild(0).gameObject.SetActive(true);
         _enabled = true;
         GetComponent<Image>().enabled = true;
@@ -70,6 +69,7 @@ public class NeedsDisplayer : MonoBehaviour {
     private void Update() {
         if (!_enabled)
             return;
+        _needs = _villager.GetComponent<VillagerNeeds>().GetNeeds;
         _name.text = _villager.name;
         _hungerGauge.Need = _needs.x;
         _boredomGauge.Need = _needs.y;

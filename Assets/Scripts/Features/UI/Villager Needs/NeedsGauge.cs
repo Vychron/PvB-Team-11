@@ -29,6 +29,8 @@ public class NeedsGauge : MonoBehaviour {
             _image.color = new Color(_need, 1f - _need, 0);
         else
             _image.color = new Color(1f - _need, _need, 0);
+        if (_need > 1)
+            _need = 1f;
         _image.rectTransform.sizeDelta = new Vector2(100f * _need, _image.rectTransform.sizeDelta.y);
     }
 }
