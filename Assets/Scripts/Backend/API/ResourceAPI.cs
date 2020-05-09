@@ -9,9 +9,18 @@ public static class ResourceAPI {
     public static SimpleEvent OnUpdateResources;
 
     /// <summary>
+    /// Event to be valled when an action's cost may have changed.
+    /// </summary>
+    public static SimpleEvent OnUpdateResourceCost;
+
+    /// <summary>
     /// Update the resources.
     /// </summary>
     public static void UpdateResources() {
         OnUpdateResources?.Invoke();
+    }
+
+    public static void UpdateResourceCosts() {
+        OnUpdateResourceCost?.Invoke();
     }
 }
