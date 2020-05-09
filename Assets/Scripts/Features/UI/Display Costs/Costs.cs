@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 /// <summary>
-/// Shows the costs of the actions inside of the controller.
+/// Shows the costs/earns of the actions inside of the controller.
 /// </summary>
 public class Costs : MonoBehaviour {
 

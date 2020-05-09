@@ -2,15 +2,15 @@
 using UnityEngine.UI;
 
 /// <summary>
-/// Shows the costs of the action.
+/// Shows the costs/earns of the action.
 /// </summary>
 public class ActionCosts : Costs {
 
     [SerializeField]
-    private InputField[] _inputFields = null;
+    protected InputField[] _inputFields = null;
 
     [SerializeField]
-    private InputField[] _sizeMultipliers = null;
+    protected InputField[] _sizeMultipliers = null;
 
     [SerializeField]
     private InputField _buildingPath = null;
@@ -18,18 +18,18 @@ public class ActionCosts : Costs {
     [SerializeField]
     private GameObject _prefab = null;
 
-    private void Start() {
+    protected virtual void Start() {
         for (int i = 0; i < _inputFields.Length; i++)
             _inputFields[i].onValueChanged.AddListener(delegate { ValueChanged(); });
         ValueChanged();
     }
 
-    private void OnDestroy() {
+    protected virtual void OnDestroy() {
         for (int i = 0; i < _inputFields.Length; i++)
             _inputFields[i].onValueChanged.RemoveListener(delegate { ValueChanged(); });
     }
 
-    private void ValueChanged() {
+    protected virtual void ValueChanged() {
         GameObject obj = null;
 
         if (_prefab != null)
