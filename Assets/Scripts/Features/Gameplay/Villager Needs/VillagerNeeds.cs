@@ -97,9 +97,10 @@ public class VillagerNeeds : MonoBehaviour {
     /// </summary>
     /// <param name="hunger">The amount of hunger to be added to the total.</param>
     /// <param name="boredom">The amount of boredom to be added to the total.</param>
-    public void UpdateNeeds(int hunger = 0, int boredom = 0) {
+    public void UpdateNeeds(int hunger = 0, int boredom = 0, int satisfaction = 0) {
         _hunger += hunger;
         _boredom += boredom;
+        _satisfaction += satisfaction;
     }
 
     private void OnDestroy() {

@@ -4,12 +4,9 @@ using UnityEngine;
 /// <summary>
 /// Data container of a house structure.
 /// </summary>
-public class House : Structure {
+public class House : ResourceSite {
 
-    /// <summary>
-    /// The location of the house entrance relative to the house.
-    /// </summary>
-    public Vector2 entrance;
+    protected ResourceTypes _resource = ResourceTypes.Eten;
 
     /// <summary>
     /// Getter for the villager count of the house.
@@ -67,7 +64,12 @@ public class House : Structure {
     private void Start() {
         if (_villagers == null)
             _villagers = new List<Villager>();
+
+        TaskAPI.OnArriveAtTaskLocation += StartTask;
+        TimerAPI.OnTimerEnd += FinishTask;
         ResourceAPI.UpdateResources();
         VillagerAPI.OnLeaveVillage += RemoveVillager;
     }
+
+
 }

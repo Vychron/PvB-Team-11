@@ -40,7 +40,10 @@ public class GatherResourceAction : Action {
         List<ResourceSite> resourceSites = new List<ResourceSite>();
 
         foreach (Structure s in structures)
-            if (s.GetType() == typeof(ResourceSite)) {
+            if (
+                s.GetType() == typeof(ResourceSite) &&
+                s.GetType() != typeof(House)
+               ) {
                 site = (ResourceSite)s;
                 if (site.resourceType == resourceType)
                     resourceSites.Add(site);
@@ -51,7 +54,7 @@ public class GatherResourceAction : Action {
             int randSite = UnityEngine.Random.Range(0, siteCount);
             site = resourceSites[randSite];
         }
-        if (site == null)
+        else
             return;
 
         Villager assignee = villager;

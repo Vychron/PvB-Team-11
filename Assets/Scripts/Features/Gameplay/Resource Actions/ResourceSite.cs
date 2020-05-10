@@ -16,15 +16,15 @@ public class ResourceSite : Structure {
     /// </summary>
     public Vector2 entrance;
 
-    private List<Timer> _timers;
+    protected List<Timer> _timers;
 
-    private List<GatherTask> _tasks;
-
-    [SerializeField]
-    private float _gatherTime = 5f;
+    protected List<GatherTask> _tasks;
 
     [SerializeField]
-    private TimerGauge _gauge = null;
+    protected float _gatherTime = 5f;
+
+    [SerializeField]
+    protected TimerGauge _gauge = null;
 
     private void Start() {
         _tasks = new List<GatherTask>();
@@ -38,14 +38,17 @@ public class ResourceSite : Structure {
     /// </summary>
     /// <param name="task"></param>
     public void AddTask(GatherTask task) {
+        if (_tasks == null)
+            _tasks = new List<GatherTask>();
+
         _tasks.Add(task);
     }
 
-    private void RemoveTask(GatherTask task) {
+    protected void RemoveTask(GatherTask task) {
         _tasks.Remove(task);
     }
 
-    private void StartTask(Villager villager) {
+    protected void StartTask(Villager villager) {
         Villager assignee = null;
         GatherTask task = null;
         foreach (GatherTask t in _tasks) {
@@ -61,12 +64,16 @@ public class ResourceSite : Structure {
         Timer taskTimer = Timers.Instance.CreateTimer(_gatherTime * task.Amount);
         TimerGauge gauge = Instantiate(_gauge, transform.position + ((Vector3)size / 2), Quaternion.identity, GameObject.FindWithTag("Canvas").transform);
         gauge.AssignedTimer = taskTimer;
+        if (_timers == null)
+            _timers = new List<Timer>();
 
         _timers.Add(taskTimer);
         task.timer = taskTimer;
     }
 
-    private void FinishTask(Timer timer) {
+    protected void FinishTask(Timer timer) {
+        if (_timers == null)
+            _timers = new List<Timer>();
         if (!_timers.Contains(timer))
             return;
         GatherTask task = null;
@@ -93,6 +100,8 @@ public class ResourceSite : Structure {
             default:
                 break;
         }
+        task.Assignee.GetComponent<VillagerNeeds>().UpdateNeeds(task.Hunger, task.Boredom, task.Satisfaction);
+        ResourceContainer.Appreciation += task.Appreciation;
         RemoveTask(task);
         _timers.Remove(timer);
     }
