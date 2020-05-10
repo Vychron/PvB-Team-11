@@ -81,13 +81,13 @@ public class ResourceSite : Structure {
 
         TaskAPI.TaskCompleted(task.Assignee);
         switch (resourceType) {
-            case ResourceTypes.Food:
+            case ResourceTypes.Eten:
                 ResourceContainer.Food += task.Amount;
                 break;
-            case ResourceTypes.Wood:
+            case ResourceTypes.Hout:
                 ResourceContainer.Wood += task.Amount;
                 break;
-            case ResourceTypes.Stone:
+            case ResourceTypes.Steen:
                 ResourceContainer.Stone += task.Amount;
                 break;
             default:

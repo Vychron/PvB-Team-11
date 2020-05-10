@@ -27,6 +27,7 @@ public abstract class ActionController : Action {
             _actions = new List<Action>();
         _actions.Add(a);
         a.transform.SetParent(_actionsContainer);
+        ResourceAPI.UpdateResourceCosts();
         Invoke("Resize", .1f);
     }
 
@@ -39,6 +40,7 @@ public abstract class ActionController : Action {
             return;
         _actions.Remove(a);
         a.transform.SetParent(transform.root);
+        ResourceAPI.UpdateResourceCosts();
         Invoke("Resize", .1f);
     }
 
