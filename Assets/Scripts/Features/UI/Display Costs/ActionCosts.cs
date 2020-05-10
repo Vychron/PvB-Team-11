@@ -36,7 +36,7 @@ public class ActionCosts : Costs {
 
         if (_prefab != null)
             obj = _prefab;
-        else
+        else if (_buildingPath != null)
             obj = Resources.Load("Prefabs/Buildings/" + _buildingPath.text) as GameObject;
 
         if (obj != null)

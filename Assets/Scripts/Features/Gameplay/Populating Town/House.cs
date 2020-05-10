@@ -69,6 +69,7 @@ public class House : ResourceSite {
         TimerAPI.OnTimerEnd += FinishTask;
         ResourceAPI.UpdateResources();
         VillagerAPI.OnLeaveVillage += RemoveVillager;
+        _tasks = new List<GatherTask>();
     }
 
 

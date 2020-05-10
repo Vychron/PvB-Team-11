@@ -32,7 +32,7 @@ public class EatAction : Action {
 
     private void Dine() {
         VillagerAPI.MovementAssigned(_villager, (Vector2)_villager.Home.transform.position + _villager.Home.entrance);
-        _villager.Home.AddTask(new GatherTask(_villager, ResourceTypes.Eten, -1, _hunger, 0, _satisfaction, 0));
+        _villager.Home.AddTask(new GatherTask(_villager, ResourceTypes.Eten, -1, _hunger, _boredom, _satisfaction, _appreciation));
         _villager = null;
     }
 

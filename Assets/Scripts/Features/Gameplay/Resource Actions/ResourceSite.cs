@@ -51,17 +51,20 @@ public class ResourceSite : Structure {
     protected void StartTask(Villager villager) {
         Villager assignee = null;
         GatherTask task = null;
-        foreach (GatherTask t in _tasks) {
-            if (t.Assignee == villager) {
-                assignee = villager;
-                task = t;
-                break;
+        if (_tasks.Count > 0)
+            foreach (GatherTask t in _tasks) {
+                if (t.Assignee == villager) {
+                    assignee = villager;
+                    task = t;
+                    break;
+                }
             }
-        }
+        else
+            return;
         if (assignee == null)
             return;
 
-        Timer taskTimer = Timers.Instance.CreateTimer(_gatherTime * task.Amount);
+        Timer taskTimer = Timers.Instance.CreateTimer(_gatherTime * Mathf.Max(1, task.Amount));
         TimerGauge gauge = Instantiate(_gauge, transform.position + ((Vector3)size / 2), Quaternion.identity, GameObject.FindWithTag("Canvas").transform);
         gauge.AssignedTimer = taskTimer;
         if (_timers == null)

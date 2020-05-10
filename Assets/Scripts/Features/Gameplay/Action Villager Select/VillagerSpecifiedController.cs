@@ -16,6 +16,13 @@ public class VillagerSpecifiedController : Controller {
 
     private Villager _selectedVillager => _villagers[_dropdown.value];
 
+    /// <summary>
+    /// Returns the selected villager.
+    /// </summary>
+    public Villager GetSelectedVillager {
+        get { return _selectedVillager; }
+    }
+
     private void Start() {
         // Get a list of available villagers.
         _villagers = ResourceContainer.Villagers;
