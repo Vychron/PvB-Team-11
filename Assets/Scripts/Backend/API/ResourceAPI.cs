@@ -19,7 +19,10 @@ public static class ResourceAPI {
     public static void UpdateResources() {
         OnUpdateResources?.Invoke();
     }
-
+    
+    /// <summary>
+    /// Update the resource cost displays.
+    /// </summary>
     public static void UpdateResourceCosts() {
         OnUpdateResourceCost?.Invoke();
     }
