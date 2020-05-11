@@ -7,7 +7,9 @@ using UnityEngine;
 /// </summary>
 public class VillagerMovement : MonoBehaviour {
 
-    private Villager _villager;
+    private Villager _villager = null;
+
+    private VillagerAnimator _animator = null;
 
     /// <summary>
     /// Returns the timer the villager uses for movement actions.
@@ -28,6 +30,7 @@ public class VillagerMovement : MonoBehaviour {
 
     private void Start() {
         _villager = GetComponent<Villager>();
+        _animator = GetComponent<VillagerAnimator>();
         VillagerAPI.OnMovementCompleted += MovementCompleted;
         VillagerAPI.OnVillagerArrive += OnJoinVillage;
         TimerAPI.OnTimerEnd += Move;
@@ -102,6 +105,7 @@ public class VillagerMovement : MonoBehaviour {
             while (Vector2.Distance(transform.position, _path[0]) > 0.0025f) {
                 Vector2 normalizedDirection = Vector3.Normalize(new Vector3(_path[0].x, _path[0].y) - transform.position) * 0.01f;
                 transform.position += (Vector3)normalizedDirection;
+                _animator.UpdateSprite(normalizedDirection);
                 yield return new WaitForEndOfFrame();
             }
             transform.position = new Vector3(_path[0].x, _path[0].y);
