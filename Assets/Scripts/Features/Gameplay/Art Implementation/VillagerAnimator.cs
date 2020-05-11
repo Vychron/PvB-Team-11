@@ -1,8 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
+﻿using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// Animates the villager sprite.
+/// </summary>
 public class VillagerAnimator : MonoBehaviour {
 
     private Sprite[]
@@ -29,6 +30,10 @@ public class VillagerAnimator : MonoBehaviour {
         _rend.sprite = _downImages[0];
     }
 
+    /// <summary>
+    /// Update the villager sprite based on movement vector.
+    /// </summary>
+    /// <param name="direction">The direcrion the villager is moving in.</param>
     public void UpdateSprite(Vector2 direction) {
         if (_currentIterator / 15 >= _rightImages.Length)
             _currentIterator = 0;
