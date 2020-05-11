@@ -1,5 +1,4 @@
-﻿using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Animates the villager sprite.
@@ -14,19 +13,15 @@ public class VillagerAnimator : MonoBehaviour {
 
     private SpriteRenderer _rend = null;
 
-    private int
-        _villagerVariant = 0,
-        _currentIterator = 0;
+    private int _currentIterator = 0;
 
     private void Start() {
         _rend = GetComponent<SpriteRenderer>();
-        string[] subFolders = AssetDatabase.GetSubFolders("Assets/Resources/Villagers");
-        _villagerVariant = Random.Range(0, subFolders.Length);
 
-        _upImages = Resources.LoadAll<Sprite>("Villagers/Villager-" + _villagerVariant.ToString() + "/Up");
-        _leftImages = Resources.LoadAll<Sprite>("Villagers/Villager-" + _villagerVariant.ToString() + "/Left");
-        _rightImages = Resources.LoadAll<Sprite>("Villagers/Villager-" + _villagerVariant.ToString() + "/Right");
-        _downImages = Resources.LoadAll<Sprite>("Villagers/Villager-" + _villagerVariant.ToString() + "/Down");
+        _upImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Up");
+        _leftImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Left");
+        _rightImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Right");
+        _downImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Down");
         _rend.sprite = _downImages[0];
     }
 

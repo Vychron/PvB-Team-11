@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 [CustomEditor(typeof(ResourceCheat))]
@@ -78,3 +79,4 @@ public class ResourceCheatEditor : Editor {
         DrawDefaultInspector();
     }
 }
+#endif
