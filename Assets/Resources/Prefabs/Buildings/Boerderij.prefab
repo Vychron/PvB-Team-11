@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4904767757789414169}
   - component: {fileID: 3327802100616577321}
-  - component: {fileID: 2531316537566259420}
+  - component: {fileID: 2556616694109124764}
   m_Layer: 0
-  m_Name: Lumber Camp
+  m_Name: Boerderij
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -44,14 +44,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d9529e7919912be4a822433b18938b46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  size: {x: 3, y: 3}
+  size: {x: 5, y: 5}
   tileType: 1
-  buildCost: {x: 0, y: 0, z: 0}
-  resourceType: 0
-  entrance: {x: 1, y: 0}
-  _gatherTime: 1
+  buildCost: {x: 10, y: 10, z: 0}
+  resourceType: 2
+  entrance: {x: 2, y: 0}
+  _gatherTime: 3
   _gauge: {fileID: 8946246154642190455, guid: a6ef0db58edc58e4e8f4ddf563e29178, type: 3}
---- !u!212 &2531316537566259420
+--- !u!212 &2556616694109124764
 SpriteRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -90,12 +90,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 262cb168273d5db489e33028168886e4, type: 3}
-  m_Color: {r: 0.63529414, g: 0.9450981, b: 0.3019608, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 29588f8ffcb6f074ab4534147424ff5d, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 3, y: 3}
+  m_Size: {x: 5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

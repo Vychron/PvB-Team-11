@@ -28,10 +28,11 @@ public class BuildAction : Action {
         obj = Resources.Load("Prefabs/Buildings/" + _objectName) as GameObject;
         if (obj) {
             Structure str = obj.GetComponent<Structure>();
-            if (str.GetType() == typeof(House)) {
-                House house = (House)str;
-                LevelGrid.Instance.TryPlace(_x, _y, obj, house.entrance);
-            }
+            if (
+                str.GetType().IsSubclassOf(typeof(ResourceSite)) ||
+                str.GetType() == typeof(ResourceSite)
+               )
+                LevelGrid.Instance.TryPlace(_x, _y, obj, ((ResourceSite)str).entrance);
             else
                 LevelGrid.Instance.TryPlace(_x, _y, obj, Vector2Int.zero);
         }
