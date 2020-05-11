@@ -18,7 +18,7 @@ public class VillagerAnimator : MonoBehaviour {
         _villagerVariant = 0,
         _currentIterator = 0;
 
-    void Start() {
+    private void Start() {
         _rend = GetComponent<SpriteRenderer>();
         string[] subFolders = AssetDatabase.GetSubFolders("Assets/Resources/Villagers");
         _villagerVariant = Random.Range(0, subFolders.Length);
