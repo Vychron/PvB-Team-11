@@ -14,17 +14,21 @@ public class VisitVillagerAction : Action {
 
     private List<string> _villagerNames = null;
 
-    private Villager _selectedVillager => _villagers[_dropdown.value];
+    private Villager _selectedVillager = null;
 
     private Villager _controllerChosenVillager = null;
 
     private void Start() {
-        _villagers = ResourceContainer.Villagers;
-        foreach (Villager v in _villagers)
-            if (!v.Available)
-                _villagers.Remove(v);
+        _dropdown.onValueChanged.AddListener(delegate { SetSelectedVillager(); });
 
+        _villagers = ResourceContainer.Villagers;
         int count = _villagers.Count;
+        if (count > 0)
+            for (int i = count - 1; i >= 0; i--)
+                if (!_villagers[i].Available)
+                    _villagers.RemoveAt(i);
+
+        count = _villagers.Count;
 
         VillagerSpecifiedController controller = GetComponentInParent<VillagerSpecifiedController>();
         if (controller != null)
@@ -38,11 +42,16 @@ public class VisitVillagerAction : Action {
         _villagerNames = new List<string>();
         for (int i = 0; i < count; i++)
             _villagerNames.Add(_villagers[i].name);
-
-        _dropdown.AddOptions(_villagerNames);
+        if (count > 1)
+            _dropdown.AddOptions(_villagerNames);
     }
 
-    public override void Execute(Villager villager = null) {
+    private void SetSelectedVillager() {
+        if (_dropdown.options.Count > 0)
+            _selectedVillager = _villagers[_dropdown.value];
+    }
+
+    public override void Execute(Villager villager = null) {      
         if (
             _selectedVillager == null ||
             _selectedVillager == villager
@@ -69,11 +78,12 @@ public class VisitVillagerAction : Action {
     }
 
     public override string GetText() {
+        SetSelectedVillager();
         string indent = "";
         _depth = GetDepth();
         for (int i = 0; i < _depth; i++)
             indent += " ";
-        return indent + "VisitVillager(Resources." + _selectedVillager.name + ");";
+        return indent + "VisitVillager(" + _selectedVillager?.name + ");";
     }
 
     private void VisitHouse() {
