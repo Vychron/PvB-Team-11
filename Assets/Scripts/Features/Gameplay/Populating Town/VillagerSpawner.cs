@@ -12,6 +12,9 @@ public class VillagerSpawner : MonoBehaviour {
     private int _gridSize = 0;
 
     [SerializeField]
+    private float _spawnTime = 60f;
+
+    [SerializeField]
     private Villager _villagerPrefab = null;
 
     private void Start() {
@@ -25,7 +28,7 @@ public class VillagerSpawner : MonoBehaviour {
     }
 
     private void CreateNewTimer() {
-        float maxDuration = 6f - (0.01f * ResourceContainer.Appreciation);
+        float maxDuration = _spawnTime - (0.01f * ResourceContainer.Appreciation);
         float duration = Random.Range(maxDuration / 2f, maxDuration);
         _spawnTimer = Timers.Instance.CreateTimer(duration);
     }
