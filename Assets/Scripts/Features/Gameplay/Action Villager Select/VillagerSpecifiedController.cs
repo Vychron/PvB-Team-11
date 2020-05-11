@@ -14,43 +14,66 @@ public class VillagerSpecifiedController : Controller {
 
     private List<string> _villagerNames = null;
 
-    private Villager _selectedVillager => _villagers[_dropdown.value];
+    private Villager _selectedVillager = null;
+
+    /// <summary>
+    /// Returns the selected villager.
+    /// </summary>
+    public Villager GetSelectedVillager {
+        get { return _selectedVillager; }
+    }
 
     private void Start() {
+        _dropdown.onValueChanged.AddListener(delegate { SetSelectedVillager(); });
+
         // Get a list of available villagers.
-        _villagers = ResourceContainer.Villagers;
-        foreach (Villager v in _villagers) {
-            if (!v.Available)
-                _villagers.Remove(v);
-        }
+        _villagers = new List<Villager>(ResourceContainer.Villagers);
 
         int count = _villagers.Count;
+        if (count > 0)
+            for (int i = count - 1; i >= 0; i--)
+                if (!_villagers[i].Available)
+                    _villagers.RemoveAt(i);
+
+        count = _villagers.Count;
         /*
          * Fill the list with villager names in the same order
          * so they have the same index numbers in their corresponding lists.
         */
         _villagerNames = new List<string>();
-        for (int i = 0; i < count; i++) {
+        for (int i = 0; i < count; i++)
             _villagerNames.Add(_villagers[i].name);
-        }
 
-        _dropdown.AddOptions(_villagerNames);
+        if (count > 0)
+            _dropdown.AddOptions(_villagerNames);
+    }
+
+    private void SetSelectedVillager() {
+        if (_dropdown.options.Count > 0)
+            _selectedVillager = _villagers[_dropdown.value];
     }
 
     public override void Execute(Villager villager = null) {
-        if (_actions == null)
+        if (_dropdown.options.Count > 0)
+            _selectedVillager = _villagers[_dropdown.value];
+
+        if (
+            _actions == null ||
+            _selectedVillager == null
+           )
             return;
+
         int count = _actions.Count;
         if (count == 0) {
             Debug.LogError("Er zijn geen acties toegevoegd aan de controller.");
             return;
         }
-        if (_selectedVillager != null)
+        //if (_selectedVillager != null)
             for (int i = 0; i < count; i++)
                 _actions[i].Execute(_selectedVillager);
 
-        else
-            Debug.LogError("De gekozen dorpeling is niet beschikbaar.");
+        //else
+            //Debug.LogError("De gekozen dorpeling is niet beschikbaar.");
     }
 
     public override string GetText() {

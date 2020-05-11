@@ -32,9 +32,13 @@ public class GatherTask : Task {
     /// <param name="villager">The villager assigned to the task.</param>
     /// <param name="resource">The resource type to be gathered.</param>
     /// <param name="amount">The amount of the resource to be gathered.</param>
-    public GatherTask(Villager villager, ResourceTypes resource, int amount) {
+    public GatherTask(Villager villager, ResourceTypes resource, int amount, int hunger = 0, int boredom = 0, int satisfaction = 0, int appreciation = 0) {
         _assignee = villager;
         _resource = resource;
         _amount = amount;
+        _hunger = hunger;
+        _boredom = boredom;
+        _satisfaction = satisfaction;
+        _appreciation = appreciation;
     }
 }

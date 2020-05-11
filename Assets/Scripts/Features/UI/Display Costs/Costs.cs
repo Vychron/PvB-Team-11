@@ -6,7 +6,6 @@ using UnityEngine.UI;
 /// </summary>
 public class Costs : MonoBehaviour {
 
-    [SerializeField]
     protected int
         _hunger = 0,
         _boredom = 0,
@@ -65,7 +64,7 @@ public class Costs : MonoBehaviour {
         SetValue(_appreciationContainer, _appreciation);
     }
 
-    private void SetValue(Transform trans, int value, bool invert = false) {
+    protected void SetValue(Transform trans, int value, bool invert = false) {
         if (value == 0)
             trans.gameObject.SetActive(false);
         else {

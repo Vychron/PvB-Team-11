@@ -47,7 +47,10 @@ MonoBehaviour:
   size: {x: 7, y: 7}
   tileType: 1
   buildCost: {x: 0, y: 0, z: 0}
+  resourceType: 2
   entrance: {x: 3, y: 0}
+  _gatherTime: 20
+  _gauge: {fileID: 8946246154642190455, guid: a6ef0db58edc58e4e8f4ddf563e29178, type: 3}
   _villagerCap: 1
 --- !u!212 &20136645699069977
 SpriteRenderer:

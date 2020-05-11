@@ -18,6 +18,8 @@ public class ActionCosts : Costs {
     [SerializeField]
     private GameObject _prefab = null;
 
+    protected Vector4 _villagerCosts = Vector4.zero;
+
     protected virtual void Start() {
         for (int i = 0; i < _inputFields.Length; i++)
             _inputFields[i].onValueChanged.AddListener(delegate { ValueChanged(); });
@@ -34,7 +36,7 @@ public class ActionCosts : Costs {
 
         if (_prefab != null)
             obj = _prefab;
-        else
+        else if (_buildingPath != null)
             obj = Resources.Load("Prefabs/Buildings/" + _buildingPath.text) as GameObject;
 
         if (obj != null)
@@ -46,7 +48,17 @@ public class ActionCosts : Costs {
             for (int i = 0; i < _sizeMultipliers.Length; i++)
                 _resources *= int.Parse(_sizeMultipliers[i].text);
 
+        SetVillagerCosts();
+
         UpdateValues();
+    }
+
+    protected void SetVillagerCosts() {
+        _villagerCosts = transform.parent.GetComponent<Action>().GetVillagerCosts;
+        _hunger = (int)_villagerCosts.x;
+        _boredom = (int)_villagerCosts.y;
+        _satisfaction = (int)_villagerCosts.z;
+        _appreciation = (int)_villagerCosts.w;
     }
 
     protected override void UpdateValues() {
