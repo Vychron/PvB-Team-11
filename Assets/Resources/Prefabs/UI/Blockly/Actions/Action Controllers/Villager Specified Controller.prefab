@@ -150,15 +150,15 @@ RectTransform:
   m_GameObject: {fileID: 1646847190244340166}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 3600912270145787021}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -7.5000305, y: -0.5}
-  m_SizeDelta: {x: -35, y: -13}
+  m_AnchoredPosition: {x: -72.500015, y: -0.5}
+  m_SizeDelta: {x: 94.99997, y: -13}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8444269914239753950
 CanvasRenderer:
@@ -188,16 +188,16 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 140
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 
 --- !u!1 &1999482508726862010
@@ -263,7 +263,7 @@ RectTransform:
   m_GameObject: {fileID: 3710777747203577984}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 6425773732585892948}
   m_RootOrder: 2
@@ -301,16 +301,16 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 140
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'uitvoeren
 
@@ -413,10 +413,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 780c805294af8644880c7994b0c8c781, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hunger: 0
-  _boredom: 0
-  _satisfaction: 0
-  _appreciation: 0
   _hungerContainer: {fileID: 516187177470004563}
   _boredomContainer: {fileID: 3020445724291510995}
   _satisfactionContainer: {fileID: 7375451454606604136}
@@ -451,7 +447,7 @@ RectTransform:
   m_GameObject: {fileID: 6144610261173861183}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 6425773732585892948}
   m_RootOrder: 0
@@ -489,16 +485,16 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 140
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Laat dorpeling
 
@@ -713,10 +709,10 @@ MonoBehaviour:
   m_Padding:
     m_Left: 4
     m_Right: 0
-    m_Top: 3
+    m_Top: 10
     m_Bottom: 4
   m_ChildAlignment: 0
-  m_Spacing: 1
+  m_Spacing: 0
   m_ChildForceExpandWidth: 0
   m_ChildForceExpandHeight: 1
   m_ChildControlWidth: 0
@@ -749,6 +745,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 054f875eb01e5af4d803b6136803445e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _hunger: 0
+  _boredom: 0
+  _satisfaction: 0
+  _appreciation: 0
   _fitters:
   - {fileID: 6425773732585892938}
   - {fileID: 8125943340849795298}
@@ -1052,15 +1052,15 @@ RectTransform:
   m_GameObject: {fileID: 7703996423009651549}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 1}
   m_Children: []
   m_Father: {fileID: 3088057306932117400}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 5, y: -0.5}
-  m_SizeDelta: {x: -30, y: -3}
+  m_AnchoredPosition: {x: -65, y: -0.5}
+  m_SizeDelta: {x: 110, y: -3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5682797614535242999
 CanvasRenderer:
@@ -1090,16 +1090,16 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
-    m_FontSize: 14
+    m_FontSize: 140
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 10
-    m_MaxSize: 40
+    m_MaxSize: 140
     m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_HorizontalOverflow: 1
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Option A
 --- !u!1 &8636451529982760803
