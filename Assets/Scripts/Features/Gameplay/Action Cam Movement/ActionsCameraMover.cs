@@ -16,6 +16,8 @@ public class ActionsCameraMover : MonoBehaviour {
 
     private Camera _cam => Camera.main;
 
+    private Vector2 _position = Vector2.one * 16;
+
     private void Update() {
 
         if (Input.GetMouseButtonDown(0)) {
@@ -47,11 +49,14 @@ public class ActionsCameraMover : MonoBehaviour {
 
             if (
                 _x.text == "" ||
-                _y.text == ""
+                _y.text == "" ||
+                _x.text[0] == '-' ||
+                _y.text[0] == '-'
                )
                 return;
 
-            MoveCamera(new Vector2(int.Parse(_x.text), int.Parse(_y.text)));
+            _position = new Vector2(int.Parse(_x.text), int.Parse(_y.text));
+            MoveCamera(_position);
         }
 
     }

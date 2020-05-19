@@ -17,6 +17,7 @@ public class ActionHighlight : MonoBehaviour {
         _object = null;
 
     private Vector3 _size = Vector3.zero;
+    private Vector2Int _position = Vector2Int.one * 16;
 
     private bool _selected = false;
 
@@ -46,7 +47,7 @@ public class ActionHighlight : MonoBehaviour {
         if (!_selected)
             return;
 
-        _highlight.position = new Vector3(int.Parse(_x.text), int.Parse(_y.text));
+        _highlight.position = (Vector3Int)_position;
 
         if (
             _width == null ||
@@ -59,13 +60,40 @@ public class ActionHighlight : MonoBehaviour {
             }
         }
         else {
-            _size = new Vector3(int.Parse(_width.text), int.Parse(_height.text));
+            if (
+                _width != null &&
+                _height != null
+               ) {
+                if (
+                    _width.text == "" ||
+                    _height.text == "" ||
+                    _width.text[0] == '-' ||
+                    _height.text[0] == '-'
+                   )
+                    return;
+
+                _size = new Vector3(int.Parse(_width.text), int.Parse(_height.text));
+            }
         }
         _highlight.localScale = _size;
+        if (
+            _x != null &&
+            _y != null
+           ) {
+            if (
+                _x.text == "" ||
+                _y.text == "" ||
+                _x.text[0] == '-' ||
+                _y.text[0] == '-'
+               )
+                return;
 
-        if (LevelGrid.Instance.CheckArea(int.Parse(_x.text), int.Parse(_y.text), (int)_size.x, (int)_size.y))
-            _highlight.GetComponent<RawImage>().color = new Color(0, 255, 0, 0.5f);
-        else
-            _highlight.GetComponent<RawImage>().color = new Color(255, 0, 0, 0.5f);
+            _position = new Vector2Int(int.Parse(_x.text), int.Parse(_y.text));
+            GameObject obj = Resources.Load("Prefabs/Buildings/" + _object?.text) as GameObject;
+            if (LevelGrid.Instance.CheckArea(_position.x, _position.y, (int)_size.x, (int)_size.y, obj?.GetComponent<Structure>()))
+                _highlight.GetComponent<RawImage>().color = new Color(0, 255, 0, 0.5f);
+            else
+                _highlight.GetComponent<RawImage>().color = new Color(255, 0, 0, 0.5f);
+        }
     }
 }
