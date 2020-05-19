@@ -87,7 +87,20 @@ public class LevelGrid : MonoBehaviour {
     /// <param name="width">The width of the area.</param>
     /// <param name="length">The Length of the area.</param>
     /// <returns>Returns if the area is empty.</returns>
-    public bool CheckArea(int x, int y, int width, int length) {
+    public bool CheckArea(int x, int y, int width, int length, Structure structure = null) {
+        int minY = 0;
+        if (structure != null)
+            if (structure.GetType() != typeof(Path))
+                minY++;
+
+        if (
+            x < 0 ||
+            y < minY ||
+            x + width >= _gridSize ||
+            y + length >= _gridSize
+           )
+            return false;
+
         for (int i = 0; i < width; i++)
             for (int j = 0; j < length; j++)
                 if (_grid[i + x][j + y].tileType != TileTypes.Empty)
@@ -119,7 +132,7 @@ public class LevelGrid : MonoBehaviour {
             return false;
 
         // Check if the area is available.
-        bool available = CheckArea(x, y, (int)size.x, (int)size.y);
+        bool available = CheckArea(x, y, (int)size.x, (int)size.y, structureComponent);
         if (!available)
             return false;
 

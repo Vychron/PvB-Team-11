@@ -29,7 +29,7 @@ public class PlacePathAction : Action {
     /// Try to place paths on the given area.
     /// </summary>
     public void PlacePaths() {
-        bool available = LevelGrid.Instance.CheckArea(_x, _y, _width, _height);
+        bool available = LevelGrid.Instance.CheckArea(_x, _y, _width, _height, _pathPrefab.GetComponent<Structure>());
         if (!available) {
             Debug.LogWarning("Gebied is niet vrij.");
             return;

@@ -21,22 +21,21 @@ public class VisitVillagerAction : Action {
     private void Start() {
         _dropdown.onValueChanged.AddListener(delegate { SetSelectedVillager(); });
 
-        _villagers = ResourceContainer.Villagers;
+        _villagers = new List<Villager>(ResourceContainer.Villagers);
         int count = _villagers.Count;
         if (count > 0)
             for (int i = count - 1; i >= 0; i--)
                 if (!_villagers[i].Available)
                     _villagers.RemoveAt(i);
 
-        count = _villagers.Count;
-
         VillagerSpecifiedController controller = GetComponentInParent<VillagerSpecifiedController>();
         if (controller != null)
             if (_villagers.Contains(controller.GetSelectedVillager))
                 _villagers.Remove(controller.GetSelectedVillager);
 
+        count = _villagers.Count;
+
         if (count < 2)
-            //Destroy(gameObject);
             return;
 
         _villagerNames = new List<string>();
@@ -49,17 +48,22 @@ public class VisitVillagerAction : Action {
     private void SetSelectedVillager() {
         if (_dropdown.options.Count > 0)
             _selectedVillager = _villagers[_dropdown.value];
+        else
+            _selectedVillager = null;
     }
 
-    public override void Execute(Villager villager = null) {      
-        if (
-            _selectedVillager == null ||
-            _selectedVillager == villager
-           )
+    public override void Execute(Villager villager = null) {
+        if (_dropdown.options.Count == 0)
+            return;
+
+        _selectedVillager = _villagers[_dropdown.value];
+
+        if (_selectedVillager == villager )
             return;
 
         if (villager != null)
             _controllerChosenVillager = villager;
+
         else {
             List<Villager> villagers = new List<Villager>(ResourceContainer.Villagers);
             villagers.Remove(_selectedVillager);
@@ -68,6 +72,7 @@ public class VisitVillagerAction : Action {
                 if (!villagers[i].Available)
                     villagers.RemoveAt(i);
             count = villagers.Count;
+
             if (count > 0)
                 _controllerChosenVillager = villagers[Random.Range(0, count)];
             else

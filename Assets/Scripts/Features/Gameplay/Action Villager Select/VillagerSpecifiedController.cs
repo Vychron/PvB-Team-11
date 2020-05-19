@@ -51,16 +51,17 @@ public class VillagerSpecifiedController : Controller {
     private void SetSelectedVillager() {
         if (_dropdown.options.Count > 0)
             _selectedVillager = _villagers[_dropdown.value];
+        else
+            _selectedVillager = null;
     }
 
     public override void Execute(Villager villager = null) {
-        if (_dropdown.options.Count > 0)
-            _selectedVillager = _villagers[_dropdown.value];
+        if (_dropdown.options.Count == 0)
+            return;
 
-        if (
-            _actions == null ||
-            _selectedVillager == null
-           )
+        _selectedVillager = _villagers[_dropdown.value];
+
+        if (_actions == null)
             return;
 
         int count = _actions.Count;
@@ -68,12 +69,8 @@ public class VillagerSpecifiedController : Controller {
             Debug.LogError("Er zijn geen acties toegevoegd aan de controller.");
             return;
         }
-        //if (_selectedVillager != null)
-            for (int i = 0; i < count; i++)
-                _actions[i].Execute(_selectedVillager);
-
-        //else
-            //Debug.LogError("De gekozen dorpeling is niet beschikbaar.");
+        for (int i = 0; i < count; i++)
+            _actions[i].Execute(_selectedVillager);
     }
 
     public override string GetText() {
