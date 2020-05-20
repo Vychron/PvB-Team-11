@@ -26,7 +26,11 @@ public class DragDrop : MonoBehaviour
     private void SaveOriginPositions() {
         _mousePrevious = _mousePosition;
     }
-
+    
+    ///<summary>
+    /// Set a given block as current selected for dragging.
+    ///</summary>
+    ///<param name="block"> The block to be set as selected. </param>
     public void SetBlock(Blockly block) {
         _block = block;
     }
@@ -48,7 +52,7 @@ public class DragDrop : MonoBehaviour
         SaveOriginPositions();
     }
 
-    public void Update() {
+    private void Update() {
         _data = new PointerEventData(_evSys);
         _data.position = _mousePosition;
 
