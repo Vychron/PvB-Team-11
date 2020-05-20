@@ -16,6 +16,11 @@ public abstract class Structure : MonoBehaviour {
     public TileTypes tileType;
 
     /// <summary>
+    /// The entrance location of the structure relative to it's position.
+    /// </summary>
+    public Vector2 entrance;
+
+    /// <summary>
     /// Resources required to build this structure.
     /// X value is wood,
     /// Y value is stone,
