@@ -25,6 +25,10 @@ public class DragDrop : MonoBehaviour
         _mousePrevious = _mousePosition;
     }
 
+    public void SetBlock(Blockly block) {
+        _block = block;
+    }
+
     private void MoveObject() {
         if (_block == null)
             return;
@@ -42,7 +46,7 @@ public class DragDrop : MonoBehaviour
         SaveOriginPositions();
     }
 
-    private void Update() {
+    public void Update() {
         _data = new PointerEventData(_evSys);
         _data.position = _mousePosition;
 
@@ -55,7 +59,7 @@ public class DragDrop : MonoBehaviour
                     break;
                 }
             }
-            if (_block != null)
+            if (_block != null) {
                 if (_block.transform.parent != _block.transform.root) {
                     Action action = null;
                     Argument argument = null;
@@ -71,13 +75,14 @@ public class DragDrop : MonoBehaviour
                             argument.transform.parent.parent.GetComponent<Operation>().RemoveFromArguments(argument);
                     }
                 }
+            }
             SaveOriginPositions();
         }
 
         if (Input.GetMouseButtonUp(0)) {
             List<RaycastResult> results = new List<RaycastResult>();
             _raycaster.Raycast(_data, results);
-            if (_block != null)
+            if (_block != null) {
                 foreach (RaycastResult r in results) {
                     if (r.gameObject == _block.gameObject)
                         continue;
@@ -109,6 +114,7 @@ public class DragDrop : MonoBehaviour
                         }
                     }
                 }
+            }
             _block = null;
             SaveOriginPositions();
         }
