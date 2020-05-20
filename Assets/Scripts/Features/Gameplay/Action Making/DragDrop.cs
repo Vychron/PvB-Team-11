@@ -21,8 +21,18 @@ public class DragDrop : MonoBehaviour
     private Vector3 _mousePosition => Input.mousePosition;
     private Vector3 _mousePrevious = Vector3.zero;
 
+    private BlocklyCanvasController _controller => GetComponent<BlocklyCanvasController>();
+
     private void SaveOriginPositions() {
         _mousePrevious = _mousePosition;
+    }
+    
+    ///<summary>
+    /// Set a given block as current selected for dragging.
+    ///</summary>
+    ///<param name="block"> The block to be set as selected. </param>
+    public void SetBlock(Blockly block) {
+        _block = block;
     }
 
     private void MoveObject() {
@@ -55,7 +65,7 @@ public class DragDrop : MonoBehaviour
                     break;
                 }
             }
-            if (_block != null)
+            if (_block != null) {
                 if (_block.transform.parent != _block.transform.root) {
                     Action action = null;
                     Argument argument = null;
@@ -71,14 +81,25 @@ public class DragDrop : MonoBehaviour
                             argument.transform.parent.parent.GetComponent<Operation>().RemoveFromArguments(argument);
                     }
                 }
+            }
             SaveOriginPositions();
         }
 
         if (Input.GetMouseButtonUp(0)) {
             List<RaycastResult> results = new List<RaycastResult>();
             _raycaster.Raycast(_data, results);
-            if (_block != null)
+            if (_block != null) {
                 foreach (RaycastResult r in results) {
+                    if (r.gameObject.tag == "Trash") {
+                        if (
+                            _block.GetType() == typeof(Controller) ||
+                            _block.GetType().IsSubclassOf(typeof(Controller))
+                           )
+                            _controller.RemoveFromList((Controller)_block);
+                        Destroy(_block.gameObject);
+                        _block = null;
+                        return;
+                    }
                     if (r.gameObject == _block.gameObject)
                         continue;
                     Blockly block = r.gameObject.GetComponent<Blockly>();
@@ -109,6 +130,7 @@ public class DragDrop : MonoBehaviour
                         }
                     }
                 }
+            }
             _block = null;
             SaveOriginPositions();
         }
