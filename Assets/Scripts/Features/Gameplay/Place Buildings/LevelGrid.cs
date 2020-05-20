@@ -118,7 +118,7 @@ public class LevelGrid : MonoBehaviour {
     /// <param name="type">The type of tile the structure uses.</param>
     /// <param name="entrance">The entrance location of the structure.</param>
     /// <returns>Returns if the position is available.</returns>
-    public bool TryPlace(int x, int y, GameObject structure, Vector2 entrance) {
+    public GameObject TryPlace(int x, int y, GameObject structure, Vector2 entrance) {
         Structure structureComponent = structure.GetComponent<Structure>();
         Vector2 size = structureComponent.size;
 
@@ -129,12 +129,12 @@ public class LevelGrid : MonoBehaviour {
             x + size.x > _gridSize ||
             y + size.y > _gridSize
            )
-            return false;
+            return null;
 
         // Check if the area is available.
         bool available = CheckArea(x, y, (int)size.x, (int)size.y, structureComponent);
         if (!available)
-            return false;
+            return null;
 
         // Check if the player has the required resources.
         Vector3Int cost = structureComponent.buildCost;
@@ -143,7 +143,7 @@ public class LevelGrid : MonoBehaviour {
             structureComponent.buildCost.y > ResourceContainer.Stone ||
             structureComponent.buildCost.z > ResourceContainer.Food
            ) {
-            return false;
+            return null;
         }
         // Take the required resources from the player.
         ResourceContainer.Wood -= cost.x;
@@ -151,7 +151,7 @@ public class LevelGrid : MonoBehaviour {
         ResourceContainer.Food -= cost.z;
 
         // Place the structure.
-        GameObject obj = Instantiate(structure, transform);
+        GameObject obj = Instantiate(structure, new Vector3(x, y), Quaternion.identity, transform) as GameObject;
         obj.transform.position = new Vector2(x, y);
 
         // Mark the area as structure.
@@ -166,7 +166,7 @@ public class LevelGrid : MonoBehaviour {
             SetEntrance(entrance);
         }
         GridAPI.UpdateGrid();
-        return true;
+        return obj;
         
     }
 

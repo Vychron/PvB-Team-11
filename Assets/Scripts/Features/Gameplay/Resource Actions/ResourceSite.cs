@@ -11,11 +11,6 @@ public class ResourceSite : Structure {
     /// </summary>
     public ResourceTypes resourceType;
 
-    /// <summary>
-    /// The location of the entrance relative to the structure's position.
-    /// </summary>
-    public Vector2 entrance;
-
     protected List<Timer> _timers;
 
     protected List<GatherTask> _tasks;
