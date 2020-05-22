@@ -523,7 +523,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Gebouw naam...
+  m_Text: 'element naam...
 
 '
 --- !u!1 &7043425639261125111
@@ -537,11 +537,11 @@ GameObject:
   - component: {fileID: 7043425639261125108}
   - component: {fileID: 7043425639261125097}
   - component: {fileID: 7043425639261125096}
-  - component: {fileID: 721637147538599259}
+  - component: {fileID: -5204184282255807923}
   - component: {fileID: -9184765301187192033}
   - component: {fileID: -2197985075420386532}
   m_Layer: 5
-  m_Name: Build Action
+  m_Name: Place Nature Element Action
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -570,7 +570,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 140}
+  m_SizeDelta: {x: 142, y: 140}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7043425639261125097
 CanvasRenderer:
@@ -608,7 +608,7 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
---- !u!114 &721637147538599259
+--- !u!114 &-5204184282255807923
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -617,7 +617,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 7043425639261125111}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ffd43e42afc80e94298dc1ea63237ff3, type: 3}
+  m_Script: {fileID: 11500000, guid: 4c445cc55285c934888dc16acd18ef86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _hunger: 0
@@ -734,7 +734,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: Plaats gebouw
+  m_Text: Plaats natuurelement
 --- !u!1 &8096081561928988513
 GameObject:
   m_ObjectHideFlags: 0
@@ -1242,7 +1242,7 @@ PrefabInstance:
     - target: {fileID: 761287822859973308, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
       propertyPath: m_SizeDelta.x
-      value: 116
+      value: 136
       objectReference: {fileID: 0}
     - target: {fileID: 761287822859973308, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
