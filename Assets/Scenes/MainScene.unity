@@ -637,17 +637,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac17d9f400375af4590129b52b977be1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Names:
-  - Jenny
-  - Fabio
-  - Bence
-  - Ruby
-  - Nathalie
+  MaleNames:
+  - Arnold
+  - Berry
+  - Carlos
   - Dean
-  - Kelsey
-  - Albert
-  - Lisa
-  - Josh
+  - Edgar
+  - Fabian
+  - Glenn
+  - Hjalmar
+  - Icarus
+  - Jonathan
+  FemaleNames:
+  - Annabel
+  - Bianca
+  - Clair
+  - Daphne
+  - Emily
+  - Femke
+  - Geraldine
+  - Hannah
+  - Iris
+  - Josephien
 --- !u!4 &1927127423
 Transform:
   m_ObjectHideFlags: 0
