@@ -3,7 +3,7 @@
 /// <summary>
 /// Abstract structure class.
 /// </summary>
-public abstract class Structure : MonoBehaviour {
+public class Structure : MonoBehaviour {
 
     /// <summary>
     /// The size of the structure.

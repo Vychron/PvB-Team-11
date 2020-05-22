@@ -39,6 +39,9 @@ public class ActionCosts : Costs {
         else if (_buildingPath != null)
             obj = Resources.Load("Prefabs/Buildings/" + _buildingPath.text) as GameObject;
 
+        if (obj == null)
+            obj = Resources.Load("Prefabs/Nature/" + _buildingPath.text) as GameObject;
+
         if (obj != null)
             _resources = obj.GetComponent<Structure>().buildCost * -1;
         else

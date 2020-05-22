@@ -55,8 +55,13 @@ public class ActionHighlight : MonoBehaviour {
             ) {
             if (_object != null) {
                 GameObject obj = Resources.Load("Prefabs/Buildings/" + _object.text) as GameObject;
-                if (obj != null)
-                    _size = obj.GetComponent<Structure>().size;
+                if (obj == null) {
+                    obj = Resources.Load("Prefabs/Nature/" + _object.text) as GameObject;
+                    if (obj != null)
+                        _size = obj.GetComponent<Structure>().size;
+                }
+
+                    
             }
         }
         else {
