@@ -45,6 +45,10 @@ public class Market : Structure {
         RemoveTask(task);
     }
 
+    /// <summary>
+    /// Add a task to the market's list of tasks.
+    /// </summary>
+    /// <param name="task">The task you want to add to the list.</param>
     public void AddTask(GatherTask task) {
         if (_tasks == null)
             _tasks = new List<GatherTask>();
