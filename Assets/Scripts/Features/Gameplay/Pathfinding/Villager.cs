@@ -29,7 +29,10 @@ public class Villager : MonoBehaviour {
     }
 
     private House _home;
-
+    
+    /// <summary>
+    /// Returns the gender of the villager.
+    /// </summary>
     public bool GetGender {
         get { return _gender; }
     }
