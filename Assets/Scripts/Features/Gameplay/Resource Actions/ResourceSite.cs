@@ -31,7 +31,7 @@ public class ResourceSite : Structure {
     /// <summary>
     /// Add a task to the resource site.
     /// </summary>
-    /// <param name="task"></param>
+    /// <param name="task">The task you want to add to the list.</param>
     public void AddTask(GatherTask task) {
         if (_tasks == null)
             _tasks = new List<GatherTask>();

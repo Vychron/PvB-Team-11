@@ -964,6 +964,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Main UI
       objectReference: {fileID: 0}
+    - target: {fileID: 5250035188521901946, guid: 73060f0680795eb42a605b3d7829d0ff,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5250035188705888475, guid: 73060f0680795eb42a605b3d7829d0ff,
         type: 3}
       propertyPath: m_AnchorMin.y

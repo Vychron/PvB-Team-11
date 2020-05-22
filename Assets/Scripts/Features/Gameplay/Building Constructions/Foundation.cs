@@ -51,6 +51,7 @@ public class Foundation : Structure {
     private void FinishTask(Timer timer) {
         if (timer != _timer)
             return;
+        TaskAPI.TaskCompleted(_task.Assignee);
         GameObject building = Instantiate(_building, transform.position, Quaternion.identity, transform.parent) as GameObject;
         LevelGrid.Instance.GetStructures.Remove(this);
         LevelGrid.Instance.GetStructures.Add(building.GetComponent<Structure>());
