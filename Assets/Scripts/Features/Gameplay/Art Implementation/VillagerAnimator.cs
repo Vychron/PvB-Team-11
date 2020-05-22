@@ -13,15 +13,22 @@ public class VillagerAnimator : MonoBehaviour {
 
     private SpriteRenderer _rend = null;
 
+    private string _gender = "";
+
     private int _currentIterator = 0;
 
     private void Start() {
+        if (GetComponent<Villager>().GetGender)
+            _gender = "Male";
+        else
+            _gender = "Female";
+
         _rend = GetComponent<SpriteRenderer>();
 
-        _upImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Up");
-        _leftImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Left");
-        _rightImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Right");
-        _downImages = Resources.LoadAll<Sprite>("Villagers/Villager-0/Down");
+        _upImages = Resources.LoadAll<Sprite>("Villagers/" + _gender + "/Up");
+        _leftImages = Resources.LoadAll<Sprite>("Villagers/" + _gender + "/Left");
+        _rightImages = Resources.LoadAll<Sprite>("Villagers/" + _gender + "/Right");
+        _downImages = Resources.LoadAll<Sprite>("Villagers/" + _gender + "/Down");
         _rend.sprite = _downImages[0];
     }
 

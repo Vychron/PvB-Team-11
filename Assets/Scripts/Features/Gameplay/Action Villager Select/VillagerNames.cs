@@ -13,7 +13,9 @@ public class VillagerNames : MonoBehaviour {
     /// <summary>
     /// List of possible villager names.
     /// </summary>
-    public string[] Names;
+    public string[]
+        MaleNames,
+        FemaleNames;
 
     private void Awake() {
         if (Instance != null) {

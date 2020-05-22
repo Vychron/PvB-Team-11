@@ -29,6 +29,15 @@ public class Villager : MonoBehaviour {
     }
 
     private House _home;
+    
+    /// <summary>
+    /// Returns the gender of the villager.
+    /// </summary>
+    public bool GetGender {
+        get { return _gender; }
+    }
+
+    private bool _gender = false; // False (0) = female, true (1) = male.
 
     /// <summary>
     /// Returns if the villager is available for a task or not.
@@ -40,10 +49,21 @@ public class Villager : MonoBehaviour {
     private bool _available = true;
 
     private void Start() {
+        if (Random.value >= 0.5f)
+            _gender = true;
+        else
+            _gender = false;
+
         VillagerAPI.OnMovementAssigned += MovementAssigned;
         TaskAPI.OnTaskCompleted += TaskCompleted;
         VillagerAPI.OnLeaveVillage += LeaveVillage;
-        string[] names = VillagerNames.Instance.Names;
+
+        string[] names;
+        if (_gender)
+            names = VillagerNames.Instance.MaleNames;
+        else
+            names = VillagerNames.Instance.FemaleNames;
+
         name = names[Random.Range(0, names.Length)];
     }
 
