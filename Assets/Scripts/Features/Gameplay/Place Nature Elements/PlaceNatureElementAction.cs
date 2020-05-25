@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -8,13 +9,41 @@ public class PlaceNatureElementAction : Action {
 
     private int _x => int.Parse(_xField.text);
     private int _y => int.Parse(_yField.text);
-    private string _objectName => _nameField.text;
+
+    [SerializeField]
+    private Dropdown _object = null;
+
+    [SerializeField]
+    private List<GameObject> _objects = null;
+
+    private string _objectName = null;
+
+    public string GetObjectName {
+        get { return _objectName; }
+    }
 
     [SerializeField]
     private InputField
         _xField = null,
-        _yField = null,
-        _nameField = null;
+        _yField = null;
+
+    private void Start() {
+        _object?.onValueChanged.AddListener(delegate { SetElement(); });
+        List<string> objNames = new List<string>();
+        foreach (GameObject g in _objects) {
+            objNames.Add(g.name);
+        }
+
+        _object?.AddOptions(objNames);
+        SetElement();
+    }
+
+    private void SetElement() {
+        if (_object?.options.Count > 0)
+            _objectName = _objects[_object.value]?.name;
+        else
+            _objectName = null;
+    }
 
     public override void Execute(Villager villager = null) {
         PlaceNatureElement();

@@ -13,18 +13,31 @@ public class ActionHighlight : MonoBehaviour {
         _x = null,
         _y = null,
         _width = null,
-        _height = null,
-        _object = null;
+        _height = null;
+
+    private string _object = null;
 
     private Vector3 _size = Vector3.zero;
     private Vector2Int _position = Vector2Int.one * 16;
 
-    private bool _selected = false;
+    private bool _selected = true;
 
     private Transform _highlight => Highlighter.Instance.transform;
 
     // Update is called once per frame
     private void Update() {
+        string objName = _object;
+
+        if (objName == null) {
+            Blockly block = GetComponent<Blockly>();
+            if (block.GetType() == typeof(BuildAction)) {
+                objName = ((BuildAction)block).GetObjectName;
+            }
+            if (block.GetType() == typeof(PlaceNatureElementAction)) {
+                objName = ((PlaceNatureElementAction)block).GetObjectName;
+            }
+        }
+
         if (Input.GetMouseButtonDown(0)) {
             if (EventSystem.current.currentSelectedGameObject == gameObject)
                 _selected = true;
@@ -53,15 +66,12 @@ public class ActionHighlight : MonoBehaviour {
             _width == null ||
             _height == null
             ) {
-            if (_object != null) {
-                GameObject obj = Resources.Load("Prefabs/Buildings/" + _object.text) as GameObject;
-                if (obj == null) {
-                    obj = Resources.Load("Prefabs/Nature/" + _object.text) as GameObject;
-                    if (obj != null)
-                        _size = obj.GetComponent<Structure>().size;
-                }
-
-                    
+            if (objName != null) {
+                GameObject obj = Resources.Load("Prefabs/Buildings/" + objName) as GameObject;
+                if (obj == null)
+                    obj = Resources.Load("Prefabs/Nature/" + objName) as GameObject;
+                if (obj != null)
+                    _size = obj.GetComponent<Structure>().size;
             }
         }
         else {
@@ -94,7 +104,7 @@ public class ActionHighlight : MonoBehaviour {
                 return;
 
             _position = new Vector2Int(int.Parse(_x.text), int.Parse(_y.text));
-            GameObject obj = Resources.Load("Prefabs/Buildings/" + _object?.text) as GameObject;
+            GameObject obj = Resources.Load("Prefabs/Buildings/" + objName) as GameObject;
             if (LevelGrid.Instance.CheckArea(_position.x, _position.y, (int)_size.x, (int)_size.y, obj?.GetComponent<Structure>()))
                 _highlight.GetComponent<RawImage>().color = new Color(0, 255, 0, 0.5f);
             else

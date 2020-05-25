@@ -9,13 +9,41 @@ public class BuildAction : Action {
 
     private int _x => int.Parse(_xField.text);
     private int _y => int.Parse(_yField.text);
-    private string _objectName => _nameField.text;
+
+    [SerializeField]
+    private Dropdown _object = null;
+
+    [SerializeField]
+    private List<GameObject> _buildings = null;
+
+    private string _objectName = null;
+
+    public string GetObjectName {
+        get { return _objectName; }
+    }
 
     [SerializeField]
     private InputField
         _xField = null,
-        _yField = null,
-        _nameField = null;
+        _yField = null;
+
+    private void Start() {
+        _object?.onValueChanged.AddListener(delegate { SetBuilding(); });
+        List<string> objNames = new List<string>();
+        foreach (GameObject g in _buildings) {
+            objNames.Add(g.name);
+        }
+
+        _object?.AddOptions(objNames);
+        SetBuilding();
+    }
+
+    private void SetBuilding() {
+        if (_object?.options.Count > 0)
+            _objectName = _buildings[_object.value]?.name;
+        else
+            _objectName = null;
+    }
 
     public override void Execute(Villager villager = null) {
         if (villager == null) {
@@ -74,6 +102,6 @@ public class BuildAction : Action {
     }
 
     public override string GetText() {
-        return "Bouw(" + _x.ToString() + ", " + _y.ToString() + ", " + _objectName + ");";
+        return "Bouw(" + _objectName + ", " + _x.ToString() + ", " + _y.ToString() + ");";
     }
 }
