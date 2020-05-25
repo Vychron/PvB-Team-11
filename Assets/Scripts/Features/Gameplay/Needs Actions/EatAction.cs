@@ -9,6 +9,7 @@ public class EatAction : Action {
     private Villager _villager = null;
 
     public override void Execute(Villager villager = null) {
+        Villager vil = null;
         if (villager == null) {
             List<Villager> villagers = new List<Villager>(ResourceContainer.Villagers);
             int count = villagers.Count;
@@ -20,27 +21,24 @@ public class EatAction : Action {
                     villagers.RemoveAt(i);
             count = villagers.Count;
             if (count > 0)
-                _villager = villagers[Random.Range(0, count)];
+                vil = villagers[Random.Range(0, count)];
             else
                 return;
         }
+        else
+            vil = villager;
 
-        if (_villager.Available)
-            Dine();
+        if (vil.Available)
+            Dine(vil);
         
     }
 
-    private void Dine() {
-        VillagerAPI.MovementAssigned(_villager, (Vector2)_villager.Home.transform.position + _villager.Home.entrance);
-        _villager.Home.AddTask(new GatherTask(_villager, ResourceTypes.Eten, -1, _hunger, _boredom, _satisfaction, _appreciation));
-        _villager = null;
+    private void Dine(Villager villager) {
+        VillagerAPI.MovementAssigned(villager, (Vector2)villager.Home.transform.position + villager.Home.entrance);
+        villager.Home.AddTask(new GatherTask(villager, ResourceTypes.Eten, -1, _hunger, _boredom, _satisfaction, _appreciation));
     }
 
     public override string GetText() {
-        string indent = "";
-        _depth = GetDepth();
-        for (int i = 0; i < _depth; i++)
-            indent += " ";
-        return indent + "Eat();";
+        return "Eet();";
     }
 }

@@ -19,30 +19,31 @@ public class VisitVillagerAction : Action {
     private Villager _controllerChosenVillager = null;
 
     private void Start() {
-        _dropdown.onValueChanged.AddListener(delegate { SetSelectedVillager(); });
+        if (_dropdown != null) {
+            _dropdown.onValueChanged.AddListener(delegate { SetSelectedVillager(); });
+            _villagers = new List<Villager>(ResourceContainer.Villagers);
+            int count = _villagers.Count;
+            if (count > 0)
+                for (int i = count - 1; i >= 0; i--)
+                    if (!_villagers[i].Available)
+                        _villagers.RemoveAt(i);
 
-        _villagers = new List<Villager>(ResourceContainer.Villagers);
-        int count = _villagers.Count;
-        if (count > 0)
-            for (int i = count - 1; i >= 0; i--)
-                if (!_villagers[i].Available)
-                    _villagers.RemoveAt(i);
+            VillagerSpecifiedController controller = GetComponentInParent<VillagerSpecifiedController>();
+            if (controller != null)
+                if (_villagers.Contains(controller.GetSelectedVillager))
+                    _villagers.Remove(controller.GetSelectedVillager);
 
-        VillagerSpecifiedController controller = GetComponentInParent<VillagerSpecifiedController>();
-        if (controller != null)
-            if (_villagers.Contains(controller.GetSelectedVillager))
-                _villagers.Remove(controller.GetSelectedVillager);
+            count = _villagers.Count;
 
-        count = _villagers.Count;
+            if (count < 2)
+                return;
 
-        if (count < 2)
-            return;
-
-        _villagerNames = new List<string>();
-        for (int i = 0; i < count; i++)
-            _villagerNames.Add(_villagers[i].name);
-        if (count > 1)
-            _dropdown.AddOptions(_villagerNames);
+            _villagerNames = new List<string>();
+            for (int i = 0; i < count; i++)
+                _villagerNames.Add(_villagers[i].name);
+            if (count > 1)
+                _dropdown.AddOptions(_villagerNames);
+        }
     }
 
     private void SetSelectedVillager() {
@@ -53,20 +54,26 @@ public class VisitVillagerAction : Action {
     }
 
     public override void Execute(Villager villager = null) {
-        if (_dropdown.options.Count == 0)
+        VisitVillager(villager);
+    }
+
+    public void VisitVillager(Villager villager = null, bool fromString = false, Villager hostingVillager = null) {
+
+        if (!fromString) {
+            if (_dropdown.options.Count == 0)
+                return;
+            hostingVillager = _villagers[_dropdown.value];
+        }
+
+        if (
+            hostingVillager == villager ||
+            hostingVillager == null
+           )
             return;
-
-        _selectedVillager = _villagers[_dropdown.value];
-
-        if (_selectedVillager == villager )
-            return;
-
-        if (villager != null)
-            _controllerChosenVillager = villager;
 
         else {
             List<Villager> villagers = new List<Villager>(ResourceContainer.Villagers);
-            villagers.Remove(_selectedVillager);
+            villagers.Remove(hostingVillager);
             int count = villagers.Count;
             for (int i = count - 1; i >= 0; i--)
                 if (!villagers[i].Available)
@@ -74,27 +81,22 @@ public class VisitVillagerAction : Action {
             count = villagers.Count;
 
             if (count > 0)
-                _controllerChosenVillager = villagers[Random.Range(0, count)];
+                villager = villagers[Random.Range(0, count)];
             else
                 return;
         }
-        if (_controllerChosenVillager.Available)
-            VisitHouse();
+        if (villager.Available)
+            VisitHouse(hostingVillager, villager);
     }
 
     public override string GetText() {
-        SetSelectedVillager();
-        string indent = "";
-        _depth = GetDepth();
-        for (int i = 0; i < _depth; i++)
-            indent += " ";
-        return indent + "VisitVillager(" + _selectedVillager?.name + ");";
+        return "Bezoek(" + _selectedVillager?.name + ");";
     }
 
-    private void VisitHouse() {
-        VillagerAPI.MovementAssigned(_controllerChosenVillager, (Vector2)_selectedVillager.Home.transform.position + _selectedVillager.Home.entrance);
-        _selectedVillager.Home.AddTask(new GatherTask(_controllerChosenVillager, ResourceTypes.Geen, 0, _hunger, _boredom, _satisfaction, _appreciation));
-        VillagerAPI.MovementAssigned(_selectedVillager, (Vector2)_selectedVillager.Home.transform.position + _selectedVillager.Home.entrance);
-        _selectedVillager.Home.AddTask(new GatherTask(_selectedVillager, ResourceTypes.Geen, 0, _hunger, _boredom, _satisfaction, _appreciation));
+    private void VisitHouse(Villager host, Villager visitor) {
+        VillagerAPI.MovementAssigned(visitor, (Vector2)host.Home.transform.position + host.Home.entrance);
+        host.Home.AddTask(new GatherTask(visitor, ResourceTypes.Geen, 0, _hunger, _boredom, _satisfaction, _appreciation));
+        VillagerAPI.MovementAssigned(host, (Vector2)host.Home.transform.position + host.Home.entrance);
+        host.Home.AddTask(new GatherTask(host, ResourceTypes.Geen, 0, _hunger, _boredom, _satisfaction, _appreciation));
     }
 }
