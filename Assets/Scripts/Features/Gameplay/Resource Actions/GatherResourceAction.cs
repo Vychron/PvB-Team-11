@@ -20,7 +20,7 @@ public class GatherResourceAction : Action {
 
     private void Start() {
         List<string> names = new List<string>(Enum.GetNames(typeof(ResourceTypes)));
-        _dropdown.AddOptions(names);
+        _dropdown?.AddOptions(names);
     }
 
     public override void Execute(Villager villager = null) {
@@ -34,7 +34,7 @@ public class GatherResourceAction : Action {
     /// <param name="resourceAmount">The amount od resources to be gathered.</param>
     /// <param name="villager">The villager to be assigned to the resource (Will be randomly selected if left blank).</param>
     public void GatherResource(ResourceTypes resourceType, int resourceAmount, Villager villager = null) {
-        Debug.Log("Gathering " + resourceType);
+
         ResourceSite site = null;
         List<Structure> structures = LevelGrid.Instance.GetStructures;
         List<ResourceSite> resourceSites = new List<ResourceSite>();
@@ -80,10 +80,6 @@ public class GatherResourceAction : Action {
     }
 
     public override string GetText() {
-        string indent = "";
-        _depth = GetDepth();
-        for (int i = 0; i < _depth; i++)
-            indent += " ";
-        return indent + "Gather(Resources." + _resource.ToString() + ", " + _amount.ToString() + ");";
+        return "Verzamel(" + _resource.ToString() + ", " + _amount.ToString() + ");";
     }
 }

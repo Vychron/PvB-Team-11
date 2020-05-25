@@ -58,13 +58,7 @@ public class Villager : MonoBehaviour {
         TaskAPI.OnTaskCompleted += TaskCompleted;
         VillagerAPI.OnLeaveVillage += LeaveVillage;
 
-        string[] names;
-        if (_gender)
-            names = VillagerNames.Instance.MaleNames;
-        else
-            names = VillagerNames.Instance.FemaleNames;
-
-        name = names[Random.Range(0, names.Length)];
+        name = VillagerNames.Instance.GenerateName(_gender);
     }
 
     private void MovementAssigned(Villager villager, Vector2 location) {
@@ -94,6 +88,7 @@ public class Villager : MonoBehaviour {
         VillagerAPI.OnMovementAssigned -= MovementAssigned;
         TaskAPI.OnTaskCompleted -= TaskCompleted;
         VillagerAPI.OnLeaveVillage -= LeaveVillage;
+        VillagerNames.Instance.RecycleName(name, _gender);
     }
 
 }

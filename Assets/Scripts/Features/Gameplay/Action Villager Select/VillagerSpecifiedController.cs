@@ -74,13 +74,13 @@ public class VillagerSpecifiedController : Controller {
     }
 
     public override string GetText() {
-        string output = "";
+        string output = _villagers[_dropdown.value]?.name + ".";
         int count = _actions.Count;
 
         if (count > 0)
             for (int i = 0; i < count; i++) {
                 if (i != 0)
-                    output += "\n";
+                    output += "\n" + _villagers[_dropdown.value]?.name + ".";
                 output += _actions[i].GetText();
             }
         return output;

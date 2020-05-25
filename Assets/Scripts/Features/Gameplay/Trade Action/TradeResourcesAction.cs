@@ -19,13 +19,22 @@ public class TradeResourcesAction : Action {
     private int _amount => int.Parse(_input.text);
 
     public override void Execute(Villager villager = null) {
-        TradeResource((ResourceTypes)_return.value, _amount, villager);
+        TradeResource((ResourceTypes)_offer.value, (ResourceTypes)_return.value, _amount, villager);
     }
 
-    private void TradeResource(ResourceTypes resource, int amount, Villager villager) {
-        if (resource == ResourceTypes.Geen)
+    /// <summary>
+    /// Tasks a villager to trade resources.
+    /// </summary>
+    /// <param name="offer">The resource you offer.</param>
+    /// <param name="returnedResource">The resource you get in return.</param>
+    /// <param name="amount">The amount of resources you offer.</param>
+    /// <param name="villager">The villager that will trade the resources.</param>
+    public void TradeResource(ResourceTypes offer, ResourceTypes returnedResource, int amount, Villager villager) {
+        if (offer == ResourceTypes.Geen)
             return;
-        if (_amount == 0)
+        if (returnedResource == ResourceTypes.Geen)
+            return;
+        if (amount == 0)
             return;
 
 
@@ -66,29 +75,33 @@ public class TradeResourcesAction : Action {
         if (assignee == null)
             return;
 
-        switch (_offer.value) {
-            case (int)ResourceTypes.Hout:
-                ResourceContainer.Wood -= _amount;
+        switch (offer) {
+            case ResourceTypes.Hout:
+                ResourceContainer.Wood -= amount;
                 break;
-            case (int)ResourceTypes.Steen:
-                ResourceContainer.Stone -= _amount;
+            case ResourceTypes.Steen:
+                ResourceContainer.Stone -= amount;
                 break;
-            case (int)ResourceTypes.Eten:
-                ResourceContainer.Food -= _amount;
+            case ResourceTypes.Eten:
+                ResourceContainer.Food -= amount;
                 break;
             default:
                 break;
         }
 
         VillagerAPI.MovementAssigned(assignee, (Vector2)market.transform.position + market.entrance);
-        market.AddTask(new GatherTask(assignee, (ResourceTypes)_return.value, Mathf.FloorToInt(amount / 2f)));
+        market.AddTask(new GatherTask(assignee, returnedResource, Mathf.FloorToInt(amount / 2f)));
 
     }
 
     private void Start() {
         List<string> names = new List<string>(Enum.GetNames(typeof(ResourceTypes)));
         names.Remove(ResourceTypes.Geen.ToString());
-        _offer.AddOptions(names);
-        _return.AddOptions(names);
+        _offer?.AddOptions(names);
+        _return?.AddOptions(names);
+    }
+
+    public override string GetText() {
+        return "Ruil(" + _offer.ToString() + ", " + _return.ToString() + ", " + _amount.ToString() + ");";
     }
 }

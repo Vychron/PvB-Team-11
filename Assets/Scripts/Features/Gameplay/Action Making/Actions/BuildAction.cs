@@ -9,13 +9,44 @@ public class BuildAction : Action {
 
     private int _x => int.Parse(_xField.text);
     private int _y => int.Parse(_yField.text);
-    private string _objectName => _nameField.text;
+
+    [SerializeField]
+    private Dropdown _object = null;
+
+    [SerializeField]
+    private List<GameObject> _buildings = null;
+
+    private string _objectName = null;
+
+    /// <summary>
+    /// Returns the name of the selected building as string.
+    /// </summary>
+    public string GetObjectName {
+        get { return _objectName; }
+    }
 
     [SerializeField]
     private InputField
         _xField = null,
-        _yField = null,
-        _nameField = null;
+        _yField = null;
+
+    private void Start() {
+        _object?.onValueChanged.AddListener(delegate { SetBuilding(); });
+        List<string> objNames = new List<string>();
+        foreach (GameObject g in _buildings) {
+            objNames.Add(g.name);
+        }
+
+        _object?.AddOptions(objNames);
+        SetBuilding();
+    }
+
+    private void SetBuilding() {
+        if (_object?.options.Count > 0)
+            _objectName = _buildings[_object.value]?.name;
+        else
+            _objectName = null;
+    }
 
     public override void Execute(Villager villager = null) {
         if (villager == null) {
@@ -36,15 +67,31 @@ public class BuildAction : Action {
     /// <summary>
     /// Try to place a building.
     /// </summary>
-    public void PlaceBuilding(Villager villager) {
-        GameObject obj = Resources.Load("Prefabs/Buildings/" + _objectName + " Foundation") as GameObject;
+    public void PlaceBuilding(Villager villager, bool fromString = false, string objectName = null, int xPosition = 0, int yPosition = 0) {
+
+        string objName;
+        int x;
+        int y;
+
+        if (fromString) {
+            objName = objectName;
+            x = xPosition;
+            y = yPosition;
+        }
+        else {
+            objName = _objectName;
+            x = _x;
+            y = _y;
+        }
+
+        GameObject obj = Resources.Load("Prefabs/Buildings/" + objName + " Foundation") as GameObject;
         if (obj) {
             GameObject structure = null;
             Structure str = obj.GetComponent<Structure>();
             if (str.entrance != Vector2.one * -1f)
-                structure = LevelGrid.Instance.TryPlace(_x, _y, obj, str.entrance);
+                structure = LevelGrid.Instance.TryPlace(x, y, obj, str.entrance);
             else
-                structure = LevelGrid.Instance.TryPlace(_x, _y, obj, Vector2Int.zero);
+                structure = LevelGrid.Instance.TryPlace(x, y, obj, Vector2Int.zero);
 
             if (structure.GetComponent<Structure>().GetType() == typeof(Foundation)) {
                 structure.GetComponent<Foundation>().Builder = villager;
@@ -53,13 +100,11 @@ public class BuildAction : Action {
         }
         else
             Debug.LogWarning("Geen object gevonden om te plaatsen.");
+
+        
     }
 
     public override string GetText() {
-        string indent = "";
-        _depth = GetDepth();
-        for (int i = 0; i < _depth; i++)
-            indent += " ";
-        return indent + "Build(" + _x.ToString() + ", " + _y.ToString() + ", \"" + _objectName + "\");";
+        return "Bouw(" + _objectName + ", " + _x.ToString() + ", " + _y.ToString() + ");";
     }
 }

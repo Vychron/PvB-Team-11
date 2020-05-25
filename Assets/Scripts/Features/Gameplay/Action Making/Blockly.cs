@@ -70,4 +70,10 @@ public abstract class Blockly : MonoBehaviour, IPointerEnterHandler, IPointerExi
         return currentDepth + parent.GetDepth();
     }
 
+    protected virtual void OnDestroy() {
+        _hText.enabled = false;
+        _hImage.enabled = false;
+        StopAllCoroutines();
+    }
+
 }

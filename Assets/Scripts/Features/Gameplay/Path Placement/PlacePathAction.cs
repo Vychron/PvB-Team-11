@@ -28,24 +28,43 @@ public class PlacePathAction : Action {
     /// <summary>
     /// Try to place paths on the given area.
     /// </summary>
-    public void PlacePaths() {
-        bool available = LevelGrid.Instance.CheckArea(_x, _y, _width, _height, _pathPrefab.GetComponent<Structure>());
+    public void PlacePaths(bool fromString = false, int xPostition = 0, int yPosition = 0, int widthValue = 0, int heightValue = 0) {
+
+        int x;
+        int y;
+        int width;
+        int height;
+
+        if (fromString) {
+            x = xPostition;
+            y = yPosition;
+            width = widthValue;
+            height = heightValue;
+        }
+        else {
+            x = _x;
+            y = _y;
+            width = _width;
+            height = _height;
+        }
+
+        bool available = LevelGrid.Instance.CheckArea(x, y, width, height, _pathPrefab.GetComponent<Structure>());
         if (!available) {
             Debug.LogWarning("Gebied is niet vrij.");
             return;
         }
 
         if (
-            _x < 0 ||
-            _y < 0 ||
-            _width < 1 ||
-            _height < 1
+            x < 0 ||
+            y < 0 ||
+            width < 1 ||
+            height < 1
            ) {
             Debug.LogWarning("Gebied is te klein of steekt buiten het dorp uit.");
             return;
         }
         Vector3Int tileCost = _pathPrefab.GetComponent<Structure>().buildCost;
-        Vector3Int cost = _width * _height * tileCost;
+        Vector3Int cost = width * height * tileCost;
         if (
             cost.x > ResourceContainer.Wood ||
             cost.y > ResourceContainer.Stone ||
@@ -55,16 +74,12 @@ public class PlacePathAction : Action {
             return;
         }
 
-        for (int i = 0; i < _width; i++)
-            for (int j = 0; j < _height; j++)
-                LevelGrid.Instance.TryPlace(_x + i, _y + j, _pathPrefab, Vector2.zero);
+        for (int i = 0; i < width; i++)
+            for (int j = 0; j < height; j++)
+                LevelGrid.Instance.TryPlace(x + i, y + j, _pathPrefab, Vector2.zero);
     }
 
     public override string GetText() {
-        string indent = "";
-        _depth = GetDepth();
-        for (int i = 0; i < _depth; i++)
-            indent += " ";
-        return indent + "PlacePath(" + _x.ToString() + ", " + _y.ToString() + ", " + _width.ToString() + ", " + _height.ToString() + ");";
+        return "PlaatsPad(" + _x.ToString() + ", " + _y.ToString() + ", " + _width.ToString() + ", " + _height.ToString() + ");";
     }
 }
