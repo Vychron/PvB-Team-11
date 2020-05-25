@@ -18,6 +18,9 @@ public class PlaceNatureElementAction : Action {
 
     private string _objectName = null;
 
+    /// <summary>
+    /// Returns the name of the selected element as string.
+    /// </summary>
     public string GetObjectName {
         get { return _objectName; }
     }

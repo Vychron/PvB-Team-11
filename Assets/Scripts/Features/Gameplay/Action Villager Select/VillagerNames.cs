@@ -63,6 +63,11 @@ public class VillagerNames : MonoBehaviour {
         return _usedNames;
     }
 
+    /// <summary>
+    /// Adds a name of a villager that has left town back to the available list.
+    /// </summary>
+    /// <param name="name">The name of the villager.</param>
+    /// <param name="isMale">The gender of the villager.</param>
     public void RecycleName(string name, bool isMale) {
         if (isMale)
             _availableMaleNames.Add(name);

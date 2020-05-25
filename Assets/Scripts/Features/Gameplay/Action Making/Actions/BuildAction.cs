@@ -18,6 +18,9 @@ public class BuildAction : Action {
 
     private string _objectName = null;
 
+    /// <summary>
+    /// Returns the name of the selected building as string.
+    /// </summary>
     public string GetObjectName {
         get { return _objectName; }
     }
