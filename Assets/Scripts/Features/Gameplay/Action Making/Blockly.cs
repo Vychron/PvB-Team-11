@@ -71,6 +71,8 @@ public abstract class Blockly : MonoBehaviour, IPointerEnterHandler, IPointerExi
     }
 
     protected virtual void OnDestroy() {
+        if (GetComponent<StringInterpreter>())
+            return;
         _hText.enabled = false;
         _hImage.enabled = false;
         StopAllCoroutines();
