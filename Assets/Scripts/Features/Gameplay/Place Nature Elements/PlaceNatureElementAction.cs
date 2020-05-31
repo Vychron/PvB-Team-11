@@ -55,6 +55,10 @@ public class PlaceNatureElementAction : Action {
     /// <summary>
     /// Try to place an element.
     /// </summary>
+    /// <param name="fromString">Whether or not the placement information is read from a string.</param>
+    /// <param name="objName">The name of the element to be placed.</param>
+    /// <param name="xPosition">The x position of the element.</param>
+    /// <param name="yPosition">The y position of the element.</param>
     public void PlaceNatureElement(bool fromString = false, string objName = null, int xPosition = 0, int yPosition = 0) {
 
         string objectName;

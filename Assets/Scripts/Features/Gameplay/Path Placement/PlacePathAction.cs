@@ -28,6 +28,11 @@ public class PlacePathAction : Action {
     /// <summary>
     /// Try to place paths on the given area.
     /// </summary>
+    /// <param name="fromString">Whether or not the placement information is read from a string.</param>
+    /// <param name="xPostition">The x position of the path.</param>
+    /// <param name="yPosition">The y position of the path.</param>
+    /// <param name="widthValue">The width of the path.</param>
+    /// <param name="heightValue">The height of the path.</param>
     public void PlacePaths(bool fromString = false, int xPostition = 0, int yPosition = 0, int widthValue = 0, int heightValue = 0) {
 
         int x;

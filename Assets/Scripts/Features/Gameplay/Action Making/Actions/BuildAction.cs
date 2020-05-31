@@ -49,8 +49,21 @@ public class BuildAction : Action {
     }
 
     public override void Execute(Villager villager = null) {
+        PlaceBuilding();
+    }
+
+    /// <summary>
+    /// Try to place a building.
+    /// </summary>
+    /// <param name="villager">The villager to build the structure.</param>
+    /// <param name="fromString">Whether or not the building information is read from a string.</param>
+    /// <param name="objectName">The name of the building.</param>
+    /// <param name="xPosition">The x position of the building.</param>
+    /// <param name="yPosition">The y position of the building.</param>
+    public void PlaceBuilding(Villager villager = null, bool fromString = false, string objectName = null, int xPosition = 0, int yPosition = 0) {
+
         if (villager == null) {
-            List <Villager> villagers = new List<Villager>(ResourceContainer.Villagers);
+            List<Villager> villagers = new List<Villager>(ResourceContainer.Villagers);
             foreach (Villager v in villagers)
                 if (!v.Available)
                     villagers.Remove(v);
@@ -60,14 +73,6 @@ public class BuildAction : Action {
                 return;
             villager = villagers[Random.Range(0, count)];
         }
-
-        PlaceBuilding(villager);
-    }
-
-    /// <summary>
-    /// Try to place a building.
-    /// </summary>
-    public void PlaceBuilding(Villager villager, bool fromString = false, string objectName = null, int xPosition = 0, int yPosition = 0) {
 
         string objName;
         int x;
