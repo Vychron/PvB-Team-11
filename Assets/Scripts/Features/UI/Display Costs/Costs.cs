@@ -58,13 +58,13 @@ public class Costs : MonoBehaviour {
         SetValue(_hungerContainer, _hunger);
         SetValue(_boredomContainer, _boredom, true);
         SetValue(_satisfactionContainer, _satisfaction);
-        SetValue(_woodContainer, _resources.x);
-        SetValue(_stoneContainer, _resources.y);
-        SetValue(_foodContainer, _resources.z);
+        SetValue(_woodContainer, _resources.x, false, ResourceTypes.Hout);
+        SetValue(_stoneContainer, _resources.y, false, ResourceTypes.Steen);
+        SetValue(_foodContainer, _resources.z, false, ResourceTypes.Eten);
         SetValue(_appreciationContainer, _appreciation);
     }
 
-    protected void SetValue(Transform trans, int value, bool invert = false) {
+    protected void SetValue(Transform trans, int value, bool invert = false, ResourceTypes resource = ResourceTypes.Geen) {
         if (value == 0)
             trans.gameObject.SetActive(false);
         else {
@@ -75,17 +75,31 @@ public class Costs : MonoBehaviour {
                 txt.text = "+";
 
             txt.text += (value).ToString();
-
-            if (
-                (value > 0 && !invert) ||
-                (value < 0 && invert)
-               ) {
-                trans.SetAsFirstSibling();
-                txt.color = new Color(0, 1, 0);
+            txt.color = new Color(1, 1, 1);
+            switch (resource) {
+                case ResourceTypes.Hout:
+                    if (Mathf.Abs(value) > ResourceContainer.Wood)
+                        SetColor(txt);
+                    break;
+                case ResourceTypes.Steen:
+                    if (Mathf.Abs(value) > ResourceContainer.Stone)
+                        SetColor(txt);
+                    break;
+                case ResourceTypes.Eten:
+                    if (Mathf.Abs(value) > ResourceContainer.Food)
+                        SetColor(txt);
+                    break;
+                default:
+                    break;
             }
-            else
-                txt.color = new Color(1, 0, 0);
         }
+    }
+
+    private void SetColor(Text txt) {
+            if (!txt.text.StartsWith("+"))
+                txt.color = new Color(1, 0, 0);
+            else
+                txt.color = new Color(0, 1, 0);
     }
 
 }
