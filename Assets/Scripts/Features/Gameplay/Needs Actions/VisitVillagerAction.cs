@@ -57,6 +57,12 @@ public class VisitVillagerAction : Action {
         VisitVillager(villager);
     }
 
+    /// <summary>
+    /// Visit a villager.
+    /// </summary>
+    /// <param name="villager">The villager that will visit another villager.</param>
+    /// <param name="fromString">Whether or not the information is read from a string.</param>
+    /// <param name="hostingVillager">The villager to be visited.</param>
     public void VisitVillager(Villager villager = null, bool fromString = false, Villager hostingVillager = null) {
 
         if (!fromString) {

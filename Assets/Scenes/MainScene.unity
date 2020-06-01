@@ -311,6 +311,8 @@ MonoBehaviour:
   _eatAction: {fileID: 470533912}
   _visitAction: {fileID: 470533911}
   _inputField: {fileID: 837466645}
+  _validCharacters: 6100620063006400650066006700680069006a006b006c006d006e006f0070007100720073007400750076007700780079007a003000310032003300340035003600370038003900
+  _separators: 20002c002e0028002900
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0
@@ -1472,46 +1474,6 @@ PrefabInstance:
     - target: {fileID: 5250035190014683405, guid: 73060f0680795eb42a605b3d7829d0ff,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6545427274993309757, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6545427274993309757, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6600105975659015860, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_AnchorMin.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6600105975659015860, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6600105975659015860, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 6600105975659015860, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6600105975659015860, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_SizeDelta.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6600105975659015860, guid: 73060f0680795eb42a605b3d7829d0ff,
-        type: 3}
-      propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
