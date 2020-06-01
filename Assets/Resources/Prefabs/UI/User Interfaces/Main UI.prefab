@@ -4521,7 +4521,7 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'In het dorp zijn er 3
 
-    belalangrijke onderdelen:
+    belangrijke onderdelen:
 
 
     Dorpelingen
@@ -8257,8 +8257,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.2499998, y: 7}
-  m_SizeDelta: {x: 4.5000005, y: 2.0000002}
+  m_AnchoredPosition: {x: -6, y: 7}
+  m_SizeDelta: {x: 12, y: 2.0000002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7166103774752018784
 CanvasRenderer:
@@ -8281,7 +8281,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -8299,7 +8299,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: x
+  m_Text: 12
 --- !u!1 &1682889731100106802
 GameObject:
   m_ObjectHideFlags: 0
@@ -9629,7 +9629,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9647,7 +9647,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: y
+  m_Text: 8
 --- !u!1 &2361252685701402151
 GameObject:
   m_ObjectHideFlags: 0
@@ -9856,7 +9856,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -9874,7 +9874,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: y
+  m_Text: 8
 --- !u!1 &2498455776088061764
 GameObject:
   m_ObjectHideFlags: 0
@@ -12868,10 +12868,10 @@ RectTransform:
   m_Father: {fileID: 6545427274993309757}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 5, y: 0}
-  m_SizeDelta: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 5, y: -5}
+  m_SizeDelta: {x: 2480.2622, y: 222.42622}
   m_Pivot: {x: 0, y: 1}
 --- !u!222 &4944060318302728614
 CanvasRenderer:
@@ -18633,7 +18633,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: -9, y: 320}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: 2490.2622, y: 232.42622}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &433297072500928431
 CanvasRenderer:
@@ -25306,8 +25306,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -2.2499998, y: 7}
-  m_SizeDelta: {x: 4.5000005, y: 2.0000002}
+  m_AnchoredPosition: {x: -6, y: 7}
+  m_SizeDelta: {x: 12, y: 2.0000002}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4013498438670800600
 CanvasRenderer:
@@ -25330,7 +25330,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 0.5}
+  m_Color: {r: 0.19607843, g: 0.19607843, b: 0.19607843, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -25348,7 +25348,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 1
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: x
+  m_Text: 12
 --- !u!1 &8838026923007966663
 GameObject:
   m_ObjectHideFlags: 0
@@ -26316,12 +26316,12 @@ PrefabInstance:
     - target: {fileID: 1373585029578682906, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1373585029578682906, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1711012325106999688, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
@@ -26401,12 +26401,12 @@ PrefabInstance:
     - target: {fileID: 3024417694109551678, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
       propertyPath: m_Color.r
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3024417694109551678, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
       propertyPath: m_Color.b
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3984119414109827756, guid: e7952a73d49ecf549a3a5da37c89d265,
         type: 3}
