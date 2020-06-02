@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
 
 ///<summary>
 /// Manages the movement on the camera, based on how far it is zoomed in.
@@ -29,8 +30,8 @@ public class CameraMovement : MonoBehaviour {
         _topBoundary = transform.position.x + _boundary;
         _bottomBoundary = transform.position.x - _boundary;
 
-        CanvasAPI.OnCanvasEnabled += () => { _canDrag = false; };
-        CanvasAPI.OnCanvasDisabled += () => { _canDrag = true; };
+        //CanvasAPI.OnCanvasEnabled += () => { _canDrag = false; };
+        //CanvasAPI.OnCanvasDisabled += () => { _canDrag = true; };
     }
 
     private void SaveOriginPositions() {
@@ -66,8 +67,15 @@ public class CameraMovement : MonoBehaviour {
            )
             SaveOriginPositions();
 
-        if (Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0)) {
+            if (EventSystem.current.currentSelectedGameObject != null) {
+                Blockly blockly = EventSystem.current.currentSelectedGameObject.GetComponent<Blockly>();
+                if (blockly != null)
+                    return;
+            }
+
             MoveObject();
+        }
     }
 
     private void ClampToBounds() {
