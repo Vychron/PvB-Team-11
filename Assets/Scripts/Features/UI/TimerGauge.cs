@@ -12,7 +12,10 @@ public class TimerGauge : MonoBehaviour {
     private float _duratrion = 0f;
     private float _currentTime = 0f;
 
-    private Image _image = null;
+    [SerializeField]
+    private Image
+        _frontImage = null,
+        _backImage = null;
 
     /// <summary>
     /// Assigns a timer to the gauge.
@@ -22,7 +25,6 @@ public class TimerGauge : MonoBehaviour {
     }
 
     private void Start() {
-        _image = GetComponent<Image>();
         TimerAPI.OnTimerEnd += Complete;
         _duratrion = _timer.GetDuration();
     }
@@ -30,8 +32,9 @@ public class TimerGauge : MonoBehaviour {
     private void Update() {
         _currentTime = _timer.GetSpentTime();
         _progress = _currentTime / _duratrion;
-        _image.fillAmount = _progress;
-        _image.color = new Color(1 - _progress, _progress, 0f);
+        _frontImage.fillAmount = _progress;
+        _backImage.fillAmount = _progress + 0.02f;
+        _frontImage.color = new Color(1 - _progress, _progress, 0f);
     }
 
     private void Complete(Timer timer) {
