@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _hunger: 0
-  _boredom: -20
+  _boredom: -80
   _satisfaction: 10
   _appreciation: 0
   _dropdown: {fileID: 4431669546968856493}

@@ -88,10 +88,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a554c66621e065b4e91a48aacb3159ba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _hungerTime: 7
-  _boredomTime: 5
-  _appreciationTime: 10
-  _minimalSatisfacion: -500
+  _hungerTime: 28
+  _boredomTime: 20
+  _appreciationTime: 40
+  _minimalSatisfacion: -100
 --- !u!61 &-1951990771059724205
 BoxCollider2D:
   m_ObjectHideFlags: 0
