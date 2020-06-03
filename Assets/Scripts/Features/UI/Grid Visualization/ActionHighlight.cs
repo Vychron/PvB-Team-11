@@ -111,4 +111,8 @@ public class ActionHighlight : MonoBehaviour {
                 _highlight.GetComponent<RawImage>().color = new Color(255, 0, 0, 0.5f);
         }
     }
+
+    private void OnDestroy() {
+        _highlight.transform.localScale = Vector2.zero;
+    }
 }
