@@ -33,6 +33,7 @@ public class VillagerMovement : MonoBehaviour {
         _animator = GetComponent<VillagerAnimator>();
         VillagerAPI.OnMovementCompleted += MovementCompleted;
         VillagerAPI.OnVillagerArrive += OnJoinVillage;
+        TaskAPI.OnTaskCompleted += ReadyMovement;
         TimerAPI.OnTimerEnd += Move;
         _pathfinder = GetComponent<Pathfinder>();
     }
@@ -76,13 +77,18 @@ public class VillagerMovement : MonoBehaviour {
         _pathfinder.GetPath(transform.position, target);
     }
 
+    private void ReadyMovement(Villager villager) {
+        if (villager != _villager)
+            return;
+        SetNewMoveTimer();
+        StartCoroutine(SetVisibility(true));
+    }
+
     private void Move(Timer timer) {
         if (timer != _moveTimer)
             return;
-        if (!_villager.Available) {
-            SetNewMoveTimer();
+        if (!_villager.Available)
             return;
-        }
         _isPathDefined = false;
         _pathfinder.GetPath(transform.position);
     }
@@ -99,7 +105,21 @@ public class VillagerMovement : MonoBehaviour {
         StartCoroutine(MoveToNextNode());
     }
 
-    private IEnumerator MoveToNextNode() {
+    private IEnumerator SetVisibility(bool visible) {
+        SpriteRenderer rend = _villager.GetComponent<SpriteRenderer>();
+        int target = 1;
+        float fadeValue = 0.025f;
+        if (!visible) {
+            target = 0;
+            fadeValue *= -1;
+        }
+        while (Mathf.Abs(rend.color.a - target) > Mathf.Abs(fadeValue)) {
+            rend.color = new Color(rend.color.r, rend.color.g, rend.color.b, rend.color.a + fadeValue);
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    private IEnumerator MoveToNextNode() { 
         int count = _path.Count;
         if (count > 0) {
             while (Vector2.Distance(transform.position, _path[0]) > 0.0025f) {
@@ -111,8 +131,14 @@ public class VillagerMovement : MonoBehaviour {
             transform.position = new Vector3(_path[0].x, _path[0].y);
             _path.RemoveAt(0);
             yield return new WaitForEndOfFrame();
-            if (_path.Count < 1)
+            if (_path.Count < 1) {
                 VillagerAPI.FinishMoving(_villager);
+                if (!_villager.Available) {
+                    _animator.UpdateSprite(new Vector2(0, 1));
+                    StartCoroutine(SetVisibility(false));
+                }
+            }
+                
             else
                 StartCoroutine(MoveToNextNode());
         }
