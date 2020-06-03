@@ -102,6 +102,6 @@ public class TradeResourcesAction : Action {
     }
 
     public override string GetText() {
-        return "Ruil(" + _offer.ToString() + ", " + _return.ToString() + ", " + _amount.ToString() + ");";
+        return "Ruil(" + ((ResourceTypes)_offer.value).ToString() + ", " + ((ResourceTypes)_return.value).ToString() + ", " + _amount.ToString() + ");";
     }
 }
